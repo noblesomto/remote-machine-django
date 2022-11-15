@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 import random
 from user.models import Notification, User, Machine
-from .models import Requests, RequestImage
+from .models import Requests, RequestImage, Chat
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -233,16 +233,27 @@ def chat(request, id, req_id):
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
 
-    userchat = User.objects.get(user_id=id)
+    userchat = User.objects.get(id=id)
     req = Requests.objects.get(req_id=req_id)
     image = RequestImage.objects.filter(req_id=req_id)
+    machine_id = req.machine_id
 
     context['user'] = user
     context['userchat'] = userchat
     context['req'] = req
     context['image'] = image
+    context['machine_id'] = machine_id
     context['title'] = "Chat"
-    return render(request, 'frontend/worker/chat.html', context)
+    if request.method == "POST":
+        machine_id = request.POST['machine_id']
+        message = request.POST['message']
+        post = Chat.objects.create(
+            user_id=user_id, machine_id=Machine.objects.get(id=int(machine_id)), message=message)
+        post.save()
+        
+        return redirect('chat', user_id=user_id, req_id=req_id)
+    else:
+        return render(request, 'frontend/worker/chat.html', context)
 
 
 def logout(request):

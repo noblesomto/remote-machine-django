@@ -47,34 +47,62 @@
                 
               </div>
 
-            
 
-            <div class="row mt-2 mb-3 pl-2 pr-2 page-white">
-              <div class="row">
-                <div class="col-2"></div>
-                <div class="col-10 userchat-bg">
-                  <div class="col-12 request-img d-flex justify-content-end">
-                      {% for row in image %}
-                      <img src="/media/{{ row.image }}" class="img-fluid" alt="">
+            <div class="row">
+           
+                <div class="col-12 chatbox-page">
+                  <div class="chatbox-1">
+                      <div class="col-12 request-img d-flex justify-content-end">
+                            {% for row in image %}
+                            <img src="/media/{{ row.image }}" class="img-fluid" alt="">
 
-                      {% endfor %}
-                    </div>
-                    <div class="col-12 mt-20 pl-20">
-                      <span class="text-gray"><small>Subject</small></span><br>
-                      <span class="text-white">{{ req.subject }}</span>
-                    </div>
+                            {% endfor %}
+                          </div>
+                          <div class="col-12 mt-20 pl-20">
+                            <span class="text-gray"><small>Subject</small></span><br>
+                            <span class="text-white">{{ req.subject }}</span>
+                          </div>
 
-                    <div class="col-12 mt-20 pl-20">
-                      <span class="text-gray"><small>Description</small></span><br>
-                      <span class="text-white">{{ req.description }}</span>
-                    </div>
+                          <div class="col-12 mt-20 pl-20">
+                            <span class="text-gray"><small>Description</small></span><br>
+                            <span class="text-white">{{ req.description }}</span>
+                          </div>
+
+                          <div class="col-12 mt-20 pl-20">
+                            <small>
+                            <span class="text-white">{{ req.req_date|date:"D d M Y" }}</span> <strong>at</strong> <span class="text-white">{{ req.req_date|date:"H:i A" }}</span>
+                            </small>
+                          </div>
+                  </div>
                 </div>
-              </div>
 
-              <div class="row mt-2 mb-3 page-white">
-                <div class="col-10 user-2-chat-bg"> Hello there </div>
-                <div class="col-2"></div>
+                <div class="col-12 chatbox-page">
+                  <div class="chatbox-2">
+                    hello
+                  </div>
+                </div>
+
+
+                <div class="col-12 chatbox-page pt-50">
+                <form class="request-form" method="POST" action="/worker/chat/{{ machine_id }}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                    <div class="form-group">
+                    <div class="row">
+                      <div class="col-10">
+                        <input type="text" name="subject" class="form-control" placeholder="Write Now..." required>
+                        <input type="hidden" name="machine_id" class="form-control" value="{{ machine_id }}" required>
+                      </div>
+                      <div class="col-2">
+                        <button class="btn btn-orange"><i class="fa fa-arrow-right"></i></button>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </form>
               </div>
+            </div>
+
+            <div class="row ">
               
             </div>
 
