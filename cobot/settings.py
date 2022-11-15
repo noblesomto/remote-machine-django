@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'cobot.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': os.getenv('DEVENGINE'),
         'NAME': 'cobot',
-        'USER': 'root',
-        'PASSWORD': 'root1234',
+        'USER': os.getenv('DEVUSER'),
+        'PASSWORD': os.getenv('DEVPASS'),
         'HOST': 'localhost'
     }
 }
