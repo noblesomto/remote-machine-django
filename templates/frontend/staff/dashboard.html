@@ -1,0 +1,95 @@
+{% include "templates/frontend/includes/header.html" %}
+{% include "templates/frontend/includes/nav.html" %}
+{% load static %}
+
+
+
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container pb-20 pt-20">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Staff Profile</h2>
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li>Profile</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+
+        <div class="row d-flex justify-content-center">
+
+          <div class="col-lg-2 mt-5 mt-lg-0 ">
+            <h5 class="text-center">PROFILE</h5>
+            <div class="d-flex justify-content-center">
+              <img src="/media/{{ staff.profile_picture }}" class="img-fluid">
+            </div>
+          </div>
+
+
+          <div class="col-lg-6 mt-5 mt-lg-0">
+            {% for message in messages %}
+
+            <div class="alert alert-danger"> {{ message }} </div> 
+          
+            {% endfor  %}
+            
+            <form action="/staff/dashboard" method="post" role="form" class="php-email-form">
+                {% csrf_token %}
+                
+                <div class="form-group mt-3">
+                    <input type="text" class="form-control" name="first_name" placeholder="First Name" value="{{ staff.first_name }}" required>
+                </div>
+
+                <div class="form-group mt-3">
+                    <input type="text" class="form-control" name="last_name" placeholder="Last Name" value="{{ staff.last_name }}" required>
+                </div>
+
+                <div class="form-group mt-3">
+                    <input type="email" class="form-control" name="email"  placeholder="Email Address" value="{{ staff.email }}" readonly>
+                  </div>
+
+                  <div class="form-group mt-3">
+                    <input type="text" class="form-control" name="phone" placeholder="Phone Number" value="{{ staff.phone }}" required>
+                  </div>
+
+              <div class="form-group mt-3">
+                <input type="text" class="form-control" name="student_id" placeholder="Staff ID Number" value="{{ staff.staff_id }}" readonly>
+              </div>
+
+              <div class="form-group mt-3">
+                <input type="password" class="form-control" name="password" placeholder="Enter Password" required>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-6 form-group">
+                    <div class=" text-center"><input class="btn btn-primary col-md-12" type="submit" name="submit" value="Update"> </div>
+                </div>
+                <div class="col-md-6 form-group mt-3 mt-md-0 d-flex justify-content-right">
+              
+                </div>
+              </div>
+             
+            </form>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+
+
+{% include "templates/frontend/includes/footer.html" %}

@@ -1,0 +1,63 @@
+{% include "templates/frontend/includes/header.html" %}
+
+{% load static %}
+
+
+
+<main id="main" class="mt-50 main-box">
+
+    
+
+    <!-- ======= Contact Section ======= -->
+    <section class="page-content">
+      <div class="container">
+
+        <div class="row d-flex justify-content-center">
+
+         
+          <div class="col-lg-8 machine-bg">
+
+            {% include "templates/frontend/includes/user-nav.html" %}
+            
+            <div class="row">
+              <div class="font-weight-bold pl-3">Machine List</div>
+            </div>
+
+            {% for row in machine %}
+            <div class="row mt-2 mb-3 page-white">
+              <div class="col-4 machine-image"><img src="/media/{{ row.machine_picture }}" class="img-fluid"></div>
+              <div class="col-6 machine-list">
+                <div class="machine-items"><span class="machine-bold">Machine no: </span>{{ row.machine_name }} </div>
+                <div class="machine-items"><span class="machine-bold">Machine code: </span>{{ row.machine_code }} </div>
+                <div class="machine-items"><span class="machine-bold">Expert: </span>{{ row.machine_expert.first_name }}&nbsp;{{ row.machine_expert.last_name }} </div>
+                <div class="machine-items"><span class="machine-bold">Status: </span><span class="text-success">{{ row.machine_status }}</span></div>
+              </div>
+              <div class="col-2">
+                <div class="dropdown ">
+                  <button class="btn " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                  </button>
+
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="/worker/assistance/{{ row.id }}">Request expert assistance</a>
+                    <a class="dropdown-item" href="/worker/failure/{{ row.id }}">Report machine failure</a>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+
+
+{% include "templates/frontend/worker/includes/nav.html" %}
+{% include "templates/frontend/includes/footer-dashboard.html" %}

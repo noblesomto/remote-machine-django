@@ -1,0 +1,50 @@
+
+.slider-text{
+   background: #FFF;
+   padding-top: 1px;
+   color: #000;
+   height: 20px;
+   font-size: 13px;
+}
+.trending-text{
+  text-align: center;
+  padding-right: 3px;
+
+}
+
+.trending-text-border{
+	  border-right: solid;
+  border-color: #FFF;
+  border-width: 1px;
+}
+
+.slider{
+  width: 98%;
+}
+
+.slider a{
+	text-decoration: none;
+	color: #000;
+}
+
+
+@media (min-width: 320px) and (max-width: 767.95px) {
+
+	.slider-text{
+   height: 20px;
+   padding-top: 2px;
+}
+	
+	.trending-text {
+		padding-top: 2px;
+	}
+
+	.trending-text h5{
+		font-size: 11px;
+	}
+
+	.slider{
+		font-size: 12px;
+}
+
+}

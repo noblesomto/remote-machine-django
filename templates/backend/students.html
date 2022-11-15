@@ -1,0 +1,92 @@
+{% include "templates/backend/includes/header.html" %}
+{% include "templates/backend/includes/nav.html" %}
+{% load static %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>All students</h1>
+  
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">List of students</h5>
+                <div class="header d-flex align-items-center">
+                  <div class="search-bar">
+                    <form class="search-form d-flex align-items-center" method="get" action="/users/search-student">
+                      <input type="text" name="search" class="form-control" placeholder="Search Student" title="Enter search keyword">
+                      <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+                    </form>
+                  </div>
+                </div>
+  
+                <!-- Default Table -->
+                <div class="table-responsive">
+                  {% for message in messages %}
+
+        <div class="alert alert-success"> {{ message }} </div> 
+
+        {% endfor  %}
+                <table class="table table-bordered ">
+                  <thead>
+                    <tr>
+                      <th>Name </th>
+                      <th>Registeration Number</th>
+                      <th>Email</th>
+                      <th>Phone</th>
+                      <th>Books</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for student in students %}
+                    <tr>
+                      <td>{{ student.first_name }} {{ student.last_name }}</td>
+                      <td>{{ student.student_id }}</td>
+                      <td>{{ student.email }}</td>
+
+                      <td>{{ student.phone }}</td>
+                      <td><a class="btn btn-primary" href="/users/student-books/{{ student.student_id }}">Books</a></td>
+                      <td>
+                        
+                        {% if student.acc_status == "1" %}
+                        <form action="/users/student-status/{{ student.student_id }}" method="POST">
+                           {% csrf_token %}
+
+                          <input type="hidden" name="student_status" value="0">
+                          <input class="btn btn-success" type="submit" name="submit" value="Suspend Student">
+                        </form>
+                        {% else %}
+                        <form action="/users/student-status/{{ student.student_id }}" method="POST">
+                           {% csrf_token %}
+
+                          <input type="hidden" name="student_status" value="1">
+                          <input class="btn btn-warning" type="submit" name="submit" value="Recall Student">
+                        </form>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                   
+                  </tbody>
+                </table>
+                </div>
+                <!-- End Default Table Example -->
+              </div>
+            </div>
+            </div>
+        </div><!-- End Left side columns -->
+
+   
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% include "templates/backend/includes/footer.html" %}

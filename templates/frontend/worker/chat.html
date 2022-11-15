@@ -1,0 +1,97 @@
+{% include "templates/frontend/includes/header.html" %}
+
+{% load static %}
+
+
+
+<main id="main" class=" main-box">
+
+    
+
+    <!-- ======= Contact Section ======= -->
+    <section class="page-content">
+      <div class="container">
+
+        <div class="row d-flex justify-content-center">
+
+         
+          <div class="col-lg-8 machine-bg">
+
+            <div class="row mt-4 pb-4 border-bottom">
+              <div class="col-2 text-left text-orange">
+                <a href="/worker/contact"><i class="fa fa-angle-left fa-2x"></i></a>
+              </div>
+              <div class="col-10 text-center font-weight-bold">
+                <div>Contact Expert</div>
+              </div>
+              
+            </div>
+
+            <div class="row page-header">
+                <div class="col-12 ">
+                  <div class="row">
+                    <div class="col-3 page-user-picture"><img src="/media/{{userchat.user_picture}}" ></div>
+                    <div class="col-9 text-left page-name"> 
+                      <div class="row">
+                        <div class="col-9 pt-2">
+                          Expert - <span class="text-orange text-capitalize font-weight-bold">{{userchat.first_name}} {{userchat.last_name}}</span>
+                          <small>Online</small>
+                        </div>
+                        <div class="col-3 text-left">
+                          <div class="contact-icon text-center"><a href="tel:{{ userchat.phone }}"><i class="fa fa-phone"></i></a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+
+            
+
+            <div class="row mt-2 mb-3 pl-2 pr-2 page-white">
+              <div class="row">
+                <div class="col-2"></div>
+                <div class="col-10 userchat-bg">
+                  <div class="col-12 request-img d-flex justify-content-end">
+                      {% for row in image %}
+                      <img src="/media/{{ row.image }}" class="img-fluid" alt="">
+
+                      {% endfor %}
+                    </div>
+                    <div class="col-12 mt-20 pl-20">
+                      <span class="text-gray"><small>Subject</small></span><br>
+                      <span class="text-white">{{ req.subject }}</span>
+                    </div>
+
+                    <div class="col-12 mt-20 pl-20">
+                      <span class="text-gray"><small>Description</small></span><br>
+                      <span class="text-white">{{ req.description }}</span>
+                    </div>
+                </div>
+              </div>
+
+              <div class="row mt-2 mb-3 page-white">
+                <div class="col-10 user-2-chat-bg"> Hello there </div>
+                <div class="col-2"></div>
+              </div>
+              
+            </div>
+
+            
+            
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+
+
+{% include "templates/frontend/worker/includes/nav.html" %}
+{% include "templates/frontend/includes/footer-dashboard.html" %}

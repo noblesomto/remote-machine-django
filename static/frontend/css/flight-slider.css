@@ -1,0 +1,31 @@
+
+.flight-text{
+   background: #e6e6e6;
+   padding-top: 4px;
+   color: #000;
+   height: 20px;
+   font-size: 13px;
+}
+
+.slider-flight{
+  width: 98%;
+}
+
+.slider-flight a{
+	text-decoration: none;
+	color: #000;
+}
+
+
+@media (min-width: 320px) and (max-width: 767.95px) {
+
+	.flight-text{
+   height: 20px;
+   padding-top: 2px;
+}
+	
+	.slider-flight{
+		font-size: 12px;
+}
+
+}
