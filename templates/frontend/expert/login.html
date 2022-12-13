@@ -1,0 +1,85 @@
+{% include "templates/frontend/includes/header.html" %}
+{% load static %}
+
+
+<section class="mt-20">
+  <div class="container-fluid bg-white pt-50 pb-50 rounded-lg">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3 col-12">
+        <h5 class="font-weight-bold">Welcome Back,</h5>
+        <p class="mt-20">Login into your account to access the valuable feedback</p>
+      </div>
+    </div>
+    <div class="row mt-20">
+      <div class="col-lg-6 offset-lg-3 col-12">
+          {% for message in messages %}
+
+            <div class="alert alert-danger"> {{ message }} </div> 
+            
+            {% endfor  %}
+            <form action="/expert/login" method="post" role="form" class="login-form" >
+                {% csrf_token %}
+              <div class="form-group mt-3">
+                <label>Email</label>
+                <input type="text" class="form-control" name="email"  placeholder="Enter email" required>
+              </div>
+
+              <div class="form-input mt-3">
+                <label>Password</label>
+                <input type="password"  name="password" placeholder="Enter Password" required>
+                <span class="icon">
+                  <i class="fa fa-eye-slash" id="togglePassword"></i>
+                </span>
+              </div>
+
+              <input type="hidden" class="form-control" name="user_category" value="Worker">
+
+              <div class="form-input mt-3">
+                <input type="checkbox" name="agree"> Keep me logged in
+              </div>
+
+              <div class="row mt-40">
+                <div class="col-lg-8 col-12 form-group">
+                    <div class=" text-center"><input class="btn btn-orange btn-big" type="submit" name="submit" value="Login"> </div>
+                </div>
+
+                <div class="col-lg-4 col-12 form-group">
+                    <div class=" text-center">Forgot Password </div>
+                </div>
+             
+              </div>
+
+
+
+             
+            </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<script>
+        const togglePassword = document
+            .querySelector('#togglePassword');
+  
+        const password = document.querySelector('#password');
+  
+        togglePassword.addEventListener('click', () => {
+  
+            // Toggle the type attribute using
+            // getAttribure() method
+            const type = password
+                .getAttribute('type') === 'password' ?
+                'text' : 'password';
+                  
+            password.setAttribute('type', type);
+  
+            // Toggle the eye and bi-eye icon
+            this.classList.toggle('fa-eye');
+        });
+    </script>
+
+{% include "templates/frontend/includes/footer.html" %}

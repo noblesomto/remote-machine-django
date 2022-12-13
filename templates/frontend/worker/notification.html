@@ -1,0 +1,61 @@
+{% include "templates/frontend/includes/header.html" %}
+
+{% load static %}
+
+
+
+<main id="main" class="mt-50 main-box">
+
+    
+
+    <!-- ======= Contact Section ======= -->
+    <section class="page-content">
+      <div class="container">
+
+        <div class="row d-flex justify-content-center">
+
+         
+          <div class="col-lg-12 machine-bg">
+
+           <div class="mt-50 mb-20"> </div>
+           
+            <div class="row mb-3">
+              <div class="col-12 text-center">
+                <div class="font-weight-bold pl-3 maintenance-text">Notification</div>
+              </div>
+            </div>
+            <div class="h6 mt-10 mb-20">Notification List</div>
+            {% for row in notification %}
+            <div class="row mt-2 mb-3 page-white">
+              
+              <div class="{{ row.request }}">
+                {% if row.request == "maintenance" %}
+                    <h6 class="maintenance-text">Maintenance Day</h6>
+                {% else %}
+                <h6 class="failure-text">Machine Failure</h6>
+                {% endif %}
+                 <h6>{{ row.title }}</h6>
+                 <p>
+                    {{ row.description }}
+                 </p>
+                 <span class="notification-date">{{ row.not_date|date:"D d M Y" }}</span>
+              </div>
+            </div>
+            {% endfor %}
+
+            <div class="mb-50"> </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+
+
+{% include "templates/frontend/worker/includes/nav.html" %}
+{% include "templates/frontend/includes/footer-dashboard.html" %}

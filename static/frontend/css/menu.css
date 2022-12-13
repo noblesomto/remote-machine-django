@@ -1,0 +1,40 @@
+
+.navbar{
+	padding-right: 60px !important;
+	padding-left: 60px !important;
+	color: #FFF;
+}
+
+.navbar a{
+	color: #FFF;
+	text-transform: uppercase;
+	margin-right: 20px;
+	letter-spacing: 0px;
+	font-weight: 600;
+	font-size: 14px;
+}
+
+.navbar a.active{
+	background: #FFF;
+}
+.navbar a:hover,
+.navbar a:active,
+.navbar a:focus,
+ {
+  color: #FFF;  
+}
+
+.navbar-toggler-icon{
+	color: #fff !important;
+}
+.navbar-brand img{
+	width: 90px;
+	height: 30px;
+}
+
+@media (min-width: 320px) and (max-width: 767.95px) {
+	.navbar{
+		padding-right: 10px !important;
+		padding-left: 20px !important;
+	}
+}

@@ -1,0 +1,111 @@
+{% include "templates/frontend/includes/header.html" %}
+
+{% load static %}
+
+
+
+<main id="main" class="mt-50 main-box">
+
+    
+
+    <!-- ======= Contact Section ======= -->
+    <section class="page-content">
+      <div class="container">
+
+        <div class="row d-flex justify-content-center">
+
+         
+          <div class="col-lg-12 machine-bg2">
+
+            {% include "templates/frontend/includes/user-nav.html" %}
+
+            
+
+            <div class="row mt-10 mb-3 pt-40 page-white">
+              <div class="col-12 pb-20">
+                <div class="font-weight-bold text-center">Request Maintenance</div>
+              </div>
+              <div class="col-12 text-center">
+                {% for message in messages %}
+                  <div class="alert alert-success"> {{ message }} </div> 
+                  {% endfor  %}
+              </div>
+              <div class="col-12">
+                <form class="request-form" method="POST" action="/expert/maintenance/{{ machine_id}}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-8"><output id="result"></output></div>
+                    <div class="col-4">
+                      <div class="form-group">
+                        <label for="files" class="filebutton">+ Add Images</label>
+                         <input style="opacity:0" id="files" name="machine-image" type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <input type="text" name="subject" class="form-control" placeholder="Service Request" required>
+                    <div class="text-right"><small>20 words max</small></div>
+                  </div>
+
+                  <div class="form-group">
+                    <textarea name="description" class="form-control" placeholder="Explain machine service needed" required></textarea>
+                    <div class="text-right"><small>500 words max</small></div>
+                  </div>
+
+                  <div class="form-group text-center">
+                    <input type="submit" name="submit" value="Submit Request" class="btn btn-orange">
+                    
+                  </div>
+                  
+                </form>
+              </div>
+            </div>
+
+    
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+<script type='text/javascript'>
+  document.querySelector("#files").addEventListener("change", (e) => { //CHANGE EVENT FOR UPLOADING PHOTOS
+  if (window.File && window.FileReader && window.FileList && window.Blob) { //CHECK IF FILE API IS SUPPORTED
+    const files = e.target.files; //FILE LIST OBJECT CONTAINING UPLOADED FILES
+    const output = document.querySelector("#result");
+    output.innerHTML = "";
+    for (let i = 0; i < files.length; i++) { // LOOP THROUGH THE FILE LIST OBJECT
+        if (!files[i].type.match("image")) continue; // ONLY PHOTOS (SKIP CURRENT ITERATION IF NOT A PHOTO)
+        const picReader = new FileReader(); // RETRIEVE DATA URI 
+        picReader.addEventListener("load", function (event) { // LOAD EVENT FOR DISPLAYING PHOTOS
+          const picFile = event.target;
+          const div = document.createElement("div");
+          div.innerHTML = `<img class="thumbnail" src="${picFile.result}" title="${picFile.name}"/>`;
+          output.appendChild(div);
+        });
+        picReader.readAsDataURL(files[i]); //READ THE IMAGE
+    }
+  } else {
+    alert("Your browser does not support File API");
+  }
+});
+</script>
+
+ <script>
+         $(function(){
+            $("input[type = 'submit']").click(function(){
+               var $fileUpload = $("input[type='file']");
+               if (parseInt($fileUpload.get(0).files.length) > 3){
+                  alert("You are only allowed to upload a maximum of 3 files");
+               }
+            });
+         });
+    </script>
+
+{% include "templates/frontend/expert/includes/nav.html" %}
+{% include "templates/frontend/includes/footer-dashboard.html" %}

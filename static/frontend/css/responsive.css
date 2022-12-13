@@ -1,0 +1,89 @@
+@media (min-width: 320px) and (max-width: 767.95px) {
+
+home{
+  background-image: url("/static/frontend/images/mobile-bg.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 15%;
+  padding-bottom: 20%;
+  margin-bottom: -20px;
+  height: 400px;
+}
+
+.main-box{
+  height: 500px;
+  overflow-y: scroll;
+}
+
+.footer{
+  background: #d74815;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 40px;
+  font-size: 10px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.footer-nav .fa{
+  display: block;
+  font-size: 20px;
+}
+
+.page-name{
+  padding-top: 2px;
+}
+.page-user-picture img{
+  width: 56px;
+}
+.machine-image img{
+  width: 150px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+}
+.machine-list{
+  color: #999;
+  font-size: 12px;
+  padding-top: 2px;
+  padding-bottom: 3px;
+}
+.machine-bold{
+  font-weight: 500;
+  color: #000;
+}
+.machine-items{
+  display: block;
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+
+.request-img img{
+  width: 80px;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.user-image img{
+  width: 70px;
+  margin-right: 10px;
+  padding: 10px;
+}
+
+.contact-icon{
+  background: #d74815;
+  padding: 10px 10px 0px 10px;
+  width: 60px;
+  height: 40px;
+  border-radius: 40px;
+  color: #FFF;
+
+}
+
+.contact-icon .fa{
+  color: #FFF;
+  font-size: 20px;
+}
+}
