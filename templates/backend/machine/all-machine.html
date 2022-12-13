@@ -1,0 +1,73 @@
+{% include "templates/backend/includes/header.html" %}
+{% include "templates/backend/includes/nav.html" %}
+{% load static %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>All Users</h1>
+  
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">List of Users</h5>
+  
+                <!-- Default Table -->
+                <div class="table-responsive">
+                <table class="table table-bordered ">
+                  <thead>
+                    <tr>
+                      <th>Machine Name</th>
+                      <th>Machine Code</th>
+                      <th>Machine Type</th>
+                      <th>Machine Status</th>
+                      <th>Edit</th>
+                      <th>Action</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in user %}
+                    <tr>
+                      <td>{{ row.machine_name }}</td>
+                      <td>{{ row.machine_code }}</td>
+                      <td>{{ row.machine_type }}</td>
+                      <td>{{ row.machine_status }}</td>
+
+                      <td><a class="btn btn-primary" href="/users/edit-machine/{{ row.id }}">Edit</a></td>
+                      <td><a class="btn btn-danger" href="/users/delete-machine/{{ row.id }}">Delete</a> </td>
+                      <td>
+                        
+                        {% if row.user_status == "Running" %}
+
+                        <a class="btn btn-primary" href="/users/machine-status/{{ row.id }}/Down">Unsuspend</a>
+                        
+                        {% else %}
+                        <a class="btn btn-warning" href="/users/machine-status/{{ row.id }}/Running">Suspend</a>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                   
+                  </tbody>
+                </table>
+                </div>
+                <!-- End Default Table Example -->
+              </div>
+            </div>
+            </div>
+        </div><!-- End Left side columns -->
+
+   
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  {% include "templates/backend/includes/footer.html" %}

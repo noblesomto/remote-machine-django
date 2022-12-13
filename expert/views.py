@@ -6,7 +6,8 @@ from django.http import HttpResponse
 import random
 from user.models import Notification, User, Machine
 from .models import Instruction
-from worker.models import Requests, RequestImage
+from serviceman.models import Expert_chat
+from worker.models import Requests, RequestImage, Chat
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -20,15 +21,15 @@ def login(request):
         password = request.POST.get('password')
 
         try:
-            user = Users.objects.get(email=email)
-        except Users.DoesNotExist:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
             user = None
             messages.info(request, 'Email Address is not correct or Does not exist')
             return redirect('/expert/login')
         if user:
             flag = check_password(password, user.password)
             if flag:
-                request.session['user_id'] = user.user_id
+                request.session['user_id'] = user.id
                 request.session['name'] = user.first_name
                 request.session['user_category'] = user.user_category
                 return redirect("/expert/dashboard")
@@ -51,7 +52,7 @@ def logout(request):
 def dashboard(request):
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(id=user_id)
     machine = Machine.objects.all().order_by('-id')
     paginator = Paginator(machine, 20)
     page_number = request.GET.get('page')
@@ -66,7 +67,7 @@ def dashboard(request):
 def give_instruction(request, machine_id): 
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(id=user_id)
     
     context['user'] = user
     context['machine_id'] = machine_id
@@ -80,7 +81,7 @@ def give_instruction(request, machine_id):
         machine_speed = request.POST['machine_speed']
         angle = request.POST['angle']
         post = Instruction.objects.create(
-            in_id=in_id, machine_id=machine_id, x_axis=x_axis,
+            in_id=in_id, machine_id=Machine.objects.get(id=int(machine_id)), x_axis=x_axis,
             y_axis=y_axis, z_axis=z_axis, machine_speed=machine_speed, angle=angle)
         post.save()
         
@@ -94,8 +95,8 @@ def give_instruction(request, machine_id):
 def monitor_machine(request, machine_id):
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
-    machine = Machine.objects.get(machine_id=machine_id)
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=machine_id)
     
     context['user'] = user
     context['machine'] = machine
@@ -103,10 +104,22 @@ def monitor_machine(request, machine_id):
     return render(request, 'frontend/expert/monitor-machine.html', context)
 
 
+def machine_status(request, machine_id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=machine_id)
+    
+    context['user'] = user
+    context['machine'] = machine
+    context['title'] = "Machine Status"
+    return render(request, 'frontend/expert/machine-status.html', context)
+
+
 def maintenance(request, machine_id): 
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(id=user_id)
     
     context['user'] = user
     context['machine_id'] = machine_id
@@ -119,7 +132,7 @@ def maintenance(request, machine_id):
         request_type = "Maintanace"
         request_status = "Pending"
         post = Requests.objects.create(
-            req_id=req_id, machine_id=machine_id, subject=subject, request_type=request_type,
+            req_id=req_id, machine_id=Machine.objects.get(id=int(machine_id)), subject=subject, request_type=request_type,
             description=description, request_status=request_status)
         post.save()
 
@@ -128,7 +141,7 @@ def maintenance(request, machine_id):
         request_type = "maintenance"
         title = "Machine no #" + machine_id
         notification = Notification.objects.create(
-            not_id=not_id, machine_id=machine_id, request=request_type, title=title, description=description,
+            machine_id=Machine.objects.get(id=int(machine_id)), request=request_type, title=title, description=description,
             not_status=not_status)
         notification.save()
 
@@ -141,7 +154,7 @@ def maintenance(request, machine_id):
 
         messages.info(
             request, 'Request successfully Submited')
-        return redirect('expert/requests',)
+        return redirect('maintenance', machine_id=machine_id)
     else:
         return render(request, 'frontend/expert/request-maintenance.html', context)
 
@@ -149,7 +162,7 @@ def maintenance(request, machine_id):
 def requests(request):
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(id=user_id)
     
     context['user'] = user
     context['title'] = "Requests"
@@ -171,7 +184,7 @@ def requests(request):
 def request_details(request,id):
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(id=user_id)
         
     req_id = id
     req = Requests.objects.get(req_id=req_id)
@@ -187,7 +200,7 @@ def request_details(request,id):
 def contact(request):
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(id=user_id)
 
     posts = Requests.objects.all()
     paginator = Paginator(posts, 10)
@@ -203,7 +216,7 @@ def contact(request):
 def notification(request):
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(id=user_id)
     posts = Notification.objects.all()
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
@@ -218,9 +231,9 @@ def workers(request, id):
     req_id = id
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(user_id=user_id)
 
-    worker = Users.objects.filter(user_category="Worker")
+    worker = User.objects.filter(user_category="Worker")
     
     context['user'] = user
     context['worker'] = worker
@@ -233,9 +246,9 @@ def serviceman(request, id):
     req_id = id
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(user_id=user_id)
 
-    serviceman = Users.objects.filter(user_category="Serviceman")
+    serviceman = User.objects.filter(user_category="Serviceman")
     
     context['user'] = user
     context['serviceman'] = serviceman
@@ -244,18 +257,68 @@ def serviceman(request, id):
     return render(request, 'frontend/worker/serviceman.html', context)
 
 
-def chat(request, id, req_id):
+def chat(request, machine_id, req_id):
     context = {}
     user_id = request.session.get('user_id')
-    user = Users.objects.get(user_id=user_id)
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=machine_id)
+    worker_id = machine.machine_worker_id
+    
 
-    userchat = Users.objects.get(user_id=id)
+    userchat = User.objects.get(id=worker_id)
     req = Requests.objects.get(req_id=req_id)
+    chat = Chat.objects.filter(req_id=req_id)
     image = RequestImage.objects.filter(req_id=req_id)
+    req_id = req_id
+    machine_id = machine_id
 
     context['user'] = user
     context['userchat'] = userchat
     context['req'] = req
+    context['chat'] = chat
+    context['machine_id'] = machine_id
     context['image'] = image
     context['title'] = "Chat"
-    return render(request, 'frontend/worker/chat.html', context)
+    if request.method == "POST":
+        req_id = request.POST['req_id']
+        message = request.POST['message']
+        post = Chat.objects.create(
+            user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
+        post.save()
+        
+        return redirect('chat', machine_id=machine_id, req_id=req_id)
+    else:
+        return render(request, 'frontend/expert/chat.html', context)
+
+def chat_serviceman(request, expert_id, machine_id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=machine_id)
+    worker_id = machine.machine_serviceman_id
+    chat = Expert_chat.objects.filter(machine_id=machine_id)
+    userchat = User.objects.get(id=worker_id)
+    
+
+    context['user'] = user
+    context['userchat'] = userchat
+    context['machine_id'] = machine_id
+    context['expert_id'] = expert_id
+    context['machine'] = machine
+    context['chat'] = chat
+    context['title'] = "Chat"
+    if request.method == "POST":
+        machine_id = request.POST['machine_id']
+        message = request.POST['message']
+        post = Expert_chat.objects.create(
+            user_id=User.objects.get(id=int(user_id)), machine_id=Machine.objects.get(id=int(machine_id)), message=message)
+        post.save()
+        
+        return redirect('chat_serviceman', expert_id=expert_id, machine_id=machine_id)
+    else:
+        return render(request, 'frontend/expert/chat-serviceman.html', context)
+
+
+def logout(request):
+    request.session.clear()
+    return redirect('login')

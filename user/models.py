@@ -27,6 +27,7 @@ class Machine(models.Model):
     machine_code = models.CharField(max_length=350, default='')
     machine_worker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='m_users')
     machine_expert = models.ForeignKey(User, on_delete=models.CASCADE, related_name='m_experts')
+    machine_serviceman = models.ForeignKey(User, on_delete=models.CASCADE, related_name='m_serviceman')
     machine_picture = models.ImageField(upload_to='machine/', null=True)
     machine_type = models.CharField(max_length=100, default='Machine')
     machine_status = models.CharField(max_length=100, default='Status')

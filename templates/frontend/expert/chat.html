@@ -1,0 +1,139 @@
+{% include "templates/frontend/includes/header.html" %}
+
+{% load static %}
+
+
+
+<main id="main" class=" main-box">
+
+    
+
+    <!-- ======= Contact Section ======= -->
+    <section class="page-content">
+      <div class="container">
+
+        <div class="row d-flex justify-content-center">
+
+         
+          <div class="col-lg-12 machine-bg">
+
+            <div class="row mt-4 pb-4 border-bottom">
+              <div class="col-2 text-left text-orange">
+                <a href="/expert/contact"><i class="fa fa-angle-left fa-2x"></i></a>
+              </div>
+              <div class="col-10 text-center font-weight-bold">
+                <div>Contact Worker</div>
+              </div>
+              
+            </div>
+
+            <div class="row page-header">
+                <div class="col-12 ">
+                  <div class="row">
+                    <div class="col-3 page-user-picture"><img src="/media/{{userchat.user_picture}}" ></div>
+                    <div class="col-9 text-left page-name"> 
+                      <div class="row">
+                        <div class="col-9 pt-2">
+                          Worker - <span class="text-orange text-capitalize font-weight-bold">{{userchat.first_name}} {{userchat.last_name}}</span><br>
+                          <small>Online</small>
+                        </div>
+                        <div class="col-3 text-left">
+                          <div class="contact-icon text-center"><a href="tel:{{ userchat.phone }}"><i class="fa fa-phone"></i></a></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+
+
+            <div class="row">
+           
+                <div class="col-12 chatbox-page">
+                  <div class="chatbox-1">
+                      <div class="col-12 request-img d-flex justify-content-end">
+                            {% for row in image %}
+                            <img src="/media/{{ row.image }}" class="img-fluid" alt="">
+
+                            {% endfor %}
+                          </div>
+                          <div class="col-12 mt-20 pl-20">
+                            <span class="text-gray"><small>Subject</small></span><br>
+                            <span class="text-white">{{ req.subject }}</span>
+                          </div>
+
+                          <div class="col-12 mt-20 pl-20">
+                            <span class="text-gray"><small>Description</small></span><br>
+                            <span class="text-white">{{ req.description }}</span>
+                          </div>
+
+                          <div class="col-12 mt-20 pl-20">
+                            <small>
+                            <span class="text-white">{{ req.req_date|date:"D d M Y" }}</span> <strong>at</strong> <span class="text-white">{{ req.req_date|date:"H:i A" }}</span>
+                            </small>
+                          </div>
+                  </div>
+                </div>
+                {% for row in chat %}
+                
+                {% if request.session.user_id == row.user_id.id %}
+
+                <div class="col-12 chatbox-page">
+                  <div class="chatbox-2">
+                   {{ row.message }}
+                   <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
+                  </div>
+
+                </div>
+                {% else %}
+                  <div class="col-12 chatbox-page">
+                  <div class="chatbox-1">
+                    {{ row.message }}
+                    <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
+                  </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+
+                <div class="col-12 chatbox-page pt-50">
+                <form class="request-form" method="POST" action="/expert/chat/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                    <div class="form-group">
+                    <div class="row">
+                      <div class="col-10">
+                        <input type="text" name="message" class="form-control" placeholder="Write Now..." required>
+                        <input type="hidden" name="req_id" class="form-control" value="{{ req.req_id }}" required>
+                      </div>
+                      <div class="col-2">
+                        <button class="btn btn-orange"><i class="fa fa-arrow-right"></i></button>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="row ">
+              
+            </div>
+
+            
+            
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+
+
+{% include "templates/frontend/worker/includes/nav.html" %}
+{% include "templates/frontend/includes/footer-dashboard.html" %}

@@ -50,7 +50,7 @@ def dashboard(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    machine = Machine.objects.all().order_by('-id')
+    machine = Machine.objects.filter(machine_type="Machine").order_by('-id')
     paginator = Paginator(machine, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -60,6 +60,17 @@ def dashboard(request):
     context['title'] = "dashboard"
     return render(request, 'frontend/worker/dashboard.html', context)
 
+
+def monitor_machine(request, machine_id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=machine_id)
+    
+    context['user'] = user
+    context['machine'] = machine
+    context['title'] = "Status Report"
+    return render(request, 'frontend/worker/monitor-machine.html', context)
 
 
 def assistance(request, machine_id): 
@@ -228,30 +239,33 @@ def serviceman(request, id):
     return render(request, 'frontend/worker/serviceman.html', context)
 
 
-def chat(request, id, req_id):
+def chat(request, expert_id, req_id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
 
-    userchat = User.objects.get(id=id)
+    userchat = User.objects.get(id=expert_id)
     req = Requests.objects.get(req_id=req_id)
+    chat = Chat.objects.filter(req_id=req_id)
     image = RequestImage.objects.filter(req_id=req_id)
-    machine_id = req.machine_id
+    req_id = req_id
+    expert_id = expert_id
 
     context['user'] = user
     context['userchat'] = userchat
     context['req'] = req
+    context['chat'] = chat
+    context['expert_id'] = expert_id
     context['image'] = image
-    context['machine_id'] = machine_id
     context['title'] = "Chat"
     if request.method == "POST":
-        machine_id = request.POST['machine_id']
+        req_id = request.POST['req_id']
         message = request.POST['message']
         post = Chat.objects.create(
-            user_id=user_id, machine_id=Machine.objects.get(id=int(machine_id)), message=message)
+            user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
         post.save()
         
-        return redirect('chat', user_id=user_id, req_id=req_id)
+        return redirect('chat', expert_id=expert_id, req_id=req_id)
     else:
         return render(request, 'frontend/worker/chat.html', context)
 

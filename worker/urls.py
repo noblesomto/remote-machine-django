@@ -14,6 +14,7 @@ urlpatterns = [
     path('worker/contact', views.contact, name='contact'),
     path('worker/notification', views.notification, name='notification'),
     path('worker/experts/<str:id>', views.experts, name='experts'),
+    path('worker/monitor-machine/<str:machine_id>', views.monitor_machine, name='monitor_machine'),
     path('worker/serviceman/<str:id>', views.serviceman, name='serviceman'),
-    path('worker/chat/<str:id>/<str:req_id>', views.chat, name='chat'),
+    path('worker/chat/<str:expert_id>/<str:req_id>', views.chat, name='chat'),
 ]

@@ -15,7 +15,7 @@
         <div class="row d-flex justify-content-center">
 
          
-          <div class="col-lg-8 machine-bg">
+          <div class="col-lg-12 machine-bg">
 
             {% include "templates/frontend/includes/user-nav.html" %}
             
@@ -29,7 +29,7 @@
               <div class="col-6 machine-list">
                 <div class="machine-items"><span class="machine-bold">Machine no: </span>{{ row.machine_name }} </div>
                 <div class="machine-items"><span class="machine-bold">Machine code: </span>{{ row.machine_code }} </div>
-                <div class="machine-items"><span class="machine-bold">Worker: </span>{{ row.machine_worker }} </div>
+                <div class="machine-items"><span class="machine-bold">Worker: </span>{{ row.machine_worker.first_name }}&nbsp;{{ row.machine_worker.last_name }} </div>
                 <div class="machine-items"><span class="machine-bold">Status: </span><span class="text-success">{{ row.machine_status }}</span></div>
               </div>
               <div class="col-2">
@@ -40,15 +40,15 @@
 
                   {% if row.machine_type == "Machine" %}
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="/expert/give-instruction/{{ row.machine_id }}">Give New Instruction</a>
-                      <a class="dropdown-item" href="/expert/monitor-machine/{{ row.machine_id }}">Monitor machine</a>
-                      <a class="dropdown-item" href="/expert/maintenance/{{ row.machine_id }}">Request Maintenance</a>
+                      <a class="dropdown-item" href="/expert/give-instruction/{{ row.id }}">Give New Instruction</a>
+                      <a class="dropdown-item" href="/expert/monitor-machine/{{ row.id }}">Monitor machine</a>
+                      <a class="dropdown-item" href="/expert/maintenance/{{ row.id }}">Request Maintenance</a>
                     </div>
                   {% else %}
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="/exper/webcam/{{ row.machine_id }}">Activate Webcam</a>
-                      <a class="dropdown-item" href="/expert/send-program/{{ row.machine_id }}">Send Program</a>
-                      <a class="dropdown-item" href="/expert/monitor-cobot/{{ row.machine_id }}">Monitor Cobot</a>
+                      <a class="dropdown-item" href="/exper/webcam/{{ row.id }}">Activate Webcam</a>
+                      <a class="dropdown-item" href="/expert/send-program/{{ row.id }}">Send Program</a>
+                      <a class="dropdown-item" href="/expert/monitor-cobot/{{ row.id }}">Monitor Cobot</a>
                     </div>
                   {% endif %}
                 </div>
