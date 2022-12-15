@@ -39,9 +39,25 @@
         </div>
         
         <div class="row mb-3">
-            <label for="inputText" class="col-sm-2 col-form-label">Machine Name</label>
+            <label for="inputNumber" class="col-sm-2 col-form-label">Select Machine</label>
             <div class="col-sm-10">
-            <input type="text" name="title" class="form-control" required>
+            <select name="machine_name" class="form-control" required>
+                <option value="">Select Machine</option>
+                {% for row in machine %}
+                <option value="{{ row.id }}">{{ row.machine_name }} </option>
+                {% endfor %}
+            </select>
+            </div>
+        </div>
+
+
+        <div class="row mb-3">
+            <label for="inputNumber" class="col-sm-2 col-form-label">Request Title</label>
+            <div class="col-sm-10">
+            <div class="form-group">
+               
+              <input type="text" class="form-control" name="request_title">
+            </div>
             </div>
         </div>
 

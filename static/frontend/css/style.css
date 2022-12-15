@@ -11,13 +11,13 @@ body{
 	
 }
 .machine-bg{
-	background: #fdf6f8;
+
 	padding-right: 20px;
 	padding-left: 20px;
 }
 
 .machine-bg2{
-	background: #c4b7bc;
+
 	padding-right: 20px;
 	padding-left: 20px;
 }
@@ -36,6 +36,14 @@ body{
 	margin-bottom: -20px;
 	height: 500px;
 }
+
+footer{
+	background: #fbebf1;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	margin-top: 20px;
+}
+
 .text-gray{
 	color: #CCC !important;
 }
@@ -65,6 +73,24 @@ body{
   border-color: #d74815;
 }
 
+.btn-request {
+  color: #FFF;
+  background: #d74815;
+  letter-spacing: 0px;
+  font-size: 14px;
+  border-radius: 20px;
+  padding: 10px 80px;
+}
+
+.btn-request:hover,
+.btn-request:active,
+.btn-request:focus,
+.btn-request.active {
+  background: #fbe5d6;
+  color: #000;
+  border-color: #fbe5d6;
+}
+
 .btn-light-orange {
   background: #fbe5d6;
   color: #000;
@@ -88,6 +114,15 @@ body{
 	width: 250px !important;
 }
 
+.toggle-button{
+	text-align: right;
+	padding-top: 3%;
+}
+
+.toggle-button-2{
+	text-align: right;
+	padding-top: 1%;
+}
 
 .login-form span {
     margin-left: -50px;
@@ -101,8 +136,9 @@ form label{
 .login-form input[type=text], input[type=password]{
 	outline: 0;
   border-width: 0 0 2px;
-  border-color: blue;
+  border-color: grey;
   width: 100%;
+  background: #fbebf1;
 }
 
 .login-form input:focus {
@@ -191,9 +227,26 @@ form label{
 	color: #d74815;
 	width: 120px;
 }
+
+.filebutton-2{
+	background: #fff;
+	padding: 20px 30px 20px 30px;
+	border-radius: 20px;
+	color: #d74815;
+	width: 80px;
+	font-size: ;
+	text-align: center;
+}
 .request-form input[type=text]{
 	border-radius: 20px;
-	background-color: #f3f3f3;
+	background-color: #fff;
+	height: 60px;
+	padding-left: 40px;
+}
+
+.chat-btn{
+	height: 60px;
+	width: 200px;
 }
 
 .request-form textarea {
@@ -205,6 +258,11 @@ form label{
 	margin-top: 10px;
 	margin-bottom: 20px;
 	padding: 10px 20px 10px 20px;
+}
+
+.request-title-bg{
+	background: #fbe5d6;
+	border-radius: 20px;
 }
 .tab-pane a{
 	text-decoration: none;
@@ -311,15 +369,17 @@ form label{
 
 .chatbox-page{
 	width: 100%;
-	background: #fff;
+	background: #fdfcf9;
+	margin-bottom: 20px;
+	
 }
 
 .chatbox-1{
 	width: 80%;
 	padding: 10px;
-	background: #d74815;
+	background: #fdfcf9;
 	float: left;
-	color: #FFF;
+	color: #999;
 	border-radius: 20px;
 	margin-bottom: 10px;
 }
@@ -327,11 +387,23 @@ form label{
 .chatbox-2{
 	width: 80%;
 	padding: 10px;
-	background: #f5f5f5;
+	background: #d74815;
 	float: right;
+	color: #fff;
 	border-radius: 20px;
 	margin-bottom: 10px;
 
+}
+
+.chat-header{
+	background: #fdfcf9;
+	border-radius: 20px;
+}
+
+.chat-header-icon .fa{
+	font-size: 50px;
+	color: ;
+	padding: 0px 10px 0px 10px;
 }
 
 .has-search .form-control {
@@ -350,4 +422,10 @@ form label{
     text-align: center;
     pointer-events: none;
     color: #d74815;
+}
+
+.notification-bg{
+	background: #fdfcf9;
+	padding: 20px 50px 20px 50px;
+	border-radius: 30px;
 }
