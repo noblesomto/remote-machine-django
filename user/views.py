@@ -182,14 +182,15 @@ def delete_machine(request, id):
 
 @login_required(login_url='/page/admin')
 def new_notification(request):
+    machine = Machine.objects.all().order_by('-id')
     if request.method == "POST":
         request_type = request.POST['request']
-        title = request.POST['title']
+        title = request.POST['request_title']
         description = request.POST['description']
-        not_id = random.randint(00000, 99999)
+        machine_name = request.POST['machine_name']
         not_status = "Active"
         user = Notification.objects.create(
-            not_id=not_id, request=request_type, title=title, description=description,not_status=not_status)
+            request=request_type, machine_id=Machine.objects.get(id=int(machine_name)), title=title, description=description,not_status=not_status)
         user.save()
 
         messages.info(
@@ -198,7 +199,7 @@ def new_notification(request):
 
     else:
         title = "New Notification"
-        return render(request, 'backend/notification/new-notification.html', {'title': title})
+        return render(request, 'backend/notification/new-notification.html', {'title': title, 'machine': machine})
 
 @login_required(login_url='/page/admin')
 def all_notification(request):

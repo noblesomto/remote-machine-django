@@ -16,17 +16,13 @@
 
          
           <div class="col-lg-12 machine-bg">
+            {% include "templates/frontend/includes/user-nav.html" %}
 
-           <div class="mt-50 mb-20"> </div>
-           
-            <div class="row mb-3">
-              <div class="col-12 text-center">
-                <div class="font-weight-bold pl-3 maintenance-text">Notification</div>
-              </div>
-            </div>
+           <div class="mt-20 mb-10"> </div>
+           <div class="notification-bg">
             <div class="h6 mt-10 mb-20">Notification List</div>
             {% for row in notification %}
-            <div class="row mt-2 mb-3 page-white">
+            <div class="row mt-2 mb-3 ">
               
               <div class="{{ row.request }}">
                 {% if row.request == "maintenance" %}
@@ -34,7 +30,7 @@
                 {% else %}
                 <h6 class="failure-text">Machine Failure</h6>
                 {% endif %}
-                 <h6>{{ row.title }}</h6>
+                 <h6>{{ row.machine_id.machine_name }}</h6>
                  <p>
                     {{ row.description }}
                  </p>
@@ -44,6 +40,7 @@
             {% endfor %}
 
             <div class="mb-50"> </div>
+            </div>
 
 
           </div>
