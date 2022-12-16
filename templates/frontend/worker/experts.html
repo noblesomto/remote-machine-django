@@ -27,13 +27,13 @@
 
             {% for row in expert %}
             <div class="row mt-2 mb-3 page-white">
-              <div class="col-2 user-image"><img src="/media/{{ row.user_picture }}" width="120px"></div>
+              <div class="col-1 user-image"><img src="/media/{{ row.user_picture }}" width="120px"></div>
 
-              <div class="col-6 machine-list">
+              <div class="col-8 machine-list">
                 <div class="expert-name pt-20"><span class="machine-bold">{{ row.first_name }}  {{ row.last_name }} </span> </div>
                 
               </div>
-              <div class="col-4 d-flex justify-content-around">
+              <div class="col-3 d-flex justify-content-around">
                 <div class="contact-icon text-center"><a href="tel:{{ row.phone }}"><i class="fa fa-phone "></i></a></div> 
                 <div class="contact-icon text-center"><a href="/worker/chat/{{ row.id }}/{{ req_id }}"><i class="fa fa-comment "></i></a></div>
               </div>

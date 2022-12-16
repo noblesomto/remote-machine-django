@@ -3,7 +3,6 @@
 {% load static %}
 
 
-
 <main id="main" class="main-box">
 
     
@@ -21,37 +20,37 @@
             
             <div class="row mb-3">
               <div class="col-12 d-flex justify-content-center">
-                <div class="font-weight-bold pl-3 ">Request Details </div>
+                <div class="font-weight-bold pl-3 ">Notification Details </div>
               </div>
             </div>
 
             <div class="row mt-2 mb-3 page-white">
-              <div class="col-12 request-img d-flex justify-content-start">
-                {% for row in image %}
-                <img src="/media/{{ row.image }}" class="img-fluid" alt="">
-
-                {% endfor %}
+              
+              <div class="col-12 mt-20 pl-20">
+                <span class="text-orange">Machine Name</span><br>
+                {{ notification.machine_id.machine_name}}
               </div>
+
               <div class="col-12 mt-20 pl-20">
                 <span class="text-orange">Subject</span><br>
-                {{ request.subject}}
+                {{ notification.title}}
               </div>
 
               <div class="col-12 mt-20 pl-20">
                 <span class="text-orange">Description</span><br>
-                {{ request.description }}
+                {{ notification.description }}
               </div>
 
               <div class="col-12 mt-20 pl-20">
-                Date <span class="text-orange">{{ request.req_date|date:"D d M Y" }}</span> at <span class="text-orange">{{ request.req_date|date:"H:i A" }}</span>
+                Date <span class="text-orange">{{ notification.not_date|date:"D d M Y" }}</span> at <span class="text-orange">{{ notification.not_date|date:"H:i A" }}</span>
                 
               </div>
 
               <div class="col-12 mt-20 pl-20 mb-3">
-                {% if request.request_status == "Solved" %}
-                  Status: <span class="text-success font-weight-bold">{{ request.request_status }}</span>
+                {% if notification.not_status == "Solved" %}
+                  Status: <span class="text-success font-weight-bold">{{ notification.not_status }}</span>
                 {% else %}
-                  Status: <span class="text-danger font-weight-bold">{{ request.request_status }}</span>
+                  Status: <span class="text-danger font-weight-bold">{{ notification.not_status }}</span>
                 {% endif %}
               </div>
             </div>

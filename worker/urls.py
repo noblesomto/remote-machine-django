@@ -13,6 +13,7 @@ urlpatterns = [
     path('worker/request-details/<str:id>', views.request_details, name='request_details'),
     path('worker/contact', views.contact, name='contact'),
     path('worker/notification', views.notification, name='notification'),
+    path('worker/notification-details/<str:id>', views.notification_details, name='notification_details'),
     path('worker/experts/<str:id>', views.experts, name='experts'),
     path('worker/monitor-machine/<str:machine_id>', views.monitor_machine, name='monitor_machine'),
     path('worker/serviceman/<str:id>', views.serviceman, name='serviceman'),
