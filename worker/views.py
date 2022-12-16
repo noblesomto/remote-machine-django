@@ -208,6 +208,18 @@ def notification(request):
     context['title'] = "Notification"
     return render(request, 'frontend/worker/notification.html', context)
 
+def notification_details(request,id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+        
+    notification = Notification.objects.get(id=id)
+
+    context['user'] = user
+    context['title'] = "Request Details"
+    context['notification'] = notification
+    return render(request, 'frontend/worker/notification-details.html', context)
+
 
 def experts(request, id):
     req_id = id

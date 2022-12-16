@@ -10,16 +10,23 @@ body{
 	padding: 10PX;
 	
 }
+.login-buttons{
+	width: 70%;
+	margin-right: auto;
+	margin-left: auto;
+}
 .machine-bg{
+	width: 80%;
+	margin-right:auto;
+	margin-left: auto;
 
-	padding-right: 20px;
-	padding-left: 20px;
 }
 
 .machine-bg2{
 
-	padding-right: 20px;
-	padding-left: 20px;
+	width: 80%;
+	margin-right:auto;
+	margin-left: auto;
 }
 
 .page-white{
@@ -142,7 +149,7 @@ form label{
 }
 
 .login-form input:focus {
-  border-color: green
+  border-color: #fbebf1;
 }
 
 .social-icon .fa{
@@ -151,16 +158,22 @@ form label{
 }
 
 .main-box{
-	height: 500px;
+	height: 94%;
 	overflow-y: scroll;
-	margin-bottom: 100px;
+	margin-bottom: 6%;
+	padding-top: 2%;
 }
+
 .footer{
 	background: #d74815;
 	padding-top: 20px;
 	padding-bottom: 20px;
 	border-radius: 20px;
+	width: 80% !important;
+	margin-right: auto;
+	margin-left: auto;
 }
+
 .footer-nav .fa{
 	display: block;
 	font-size: 30px;
@@ -182,7 +195,8 @@ form label{
 	padding-top: 20px;
 }
 .page-user-picture img{
-  width: 80px;
+  width: 70px;
+  padding-top: 2px;
 }
 
 .machine-image img{
@@ -262,7 +276,12 @@ form label{
 
 .request-title-bg{
 	background: #fbe5d6;
-	border-radius: 20px;
+	border-radius: 50px;
+	padding-top: 10px;
+	padding-bottom: 0px;
+	width: 70%;
+	margin-right: auto;
+	margin-left: auto;
 }
 .tab-pane a{
 	text-decoration: none;
@@ -401,7 +420,7 @@ form label{
 }
 
 .chat-header-icon .fa{
-	font-size: 50px;
+	font-size: 40px;
 	color: ;
 	padding: 0px 10px 0px 10px;
 }

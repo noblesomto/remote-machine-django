@@ -4,18 +4,18 @@
 
 
 
-<main id="main" class="mt-50 main-box">
+<main id="main" class="main-box">
 
     
 
     <!-- ======= Contact Section ======= -->
     <section class="page-content">
-      <div class="container">
+      <div class="container-fluid">
 
         <div class="row d-flex justify-content-center">
 
          
-          <div class="col-lg-12 machine-bg">
+          <div class="machine-bg">
 
             {% include "templates/frontend/includes/user-nav.html" %}
             
@@ -39,8 +39,8 @@
                   </button>
 
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="/worker/experts/{{ row.req_id }}">Chat with Expert</a>
-                    <a class="dropdown-item" href="/worker/serviceman/{{ row.req_id }}">Chat with Serviceman</a>
+                    <a class="dropdown-item" href="/worker/chat/{{ row.id }}/{{ row.req_id }}">Chat with Expert</a>
+                    <a class="dropdown-item" href="">Chat with Serviceman</a>
                   </div>
                 </div>
               </div>

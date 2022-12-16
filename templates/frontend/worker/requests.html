@@ -4,44 +4,34 @@
 
 
 
-<main id="main" class="mt-50 main-box">
+<main id="main" class="main-box">
 
     
 
     <!-- ======= Contact Section ======= -->
     <section class="page-content">
-      <div class="container">
+      <div class="container-fluid">
 
         <div class="row d-flex justify-content-center">
 
          
-          <div class="col-lg-12 machine-bg">
+          <div class=" machine-bg">
 
             {% include "templates/frontend/includes/user-nav.html" %}
             
 
-            <div class="request-title-bg">
+            <div class="request-title-bg text-center">
               <ul class="nav nav-pills mb-3 d-flex justify-content-center" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation">
-                <button class="btn btn-request active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Solved Request</button>
+                <button class="btn btn-request active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Unsolved Request</button>
               </li>
               <li class="nav-item" role="presentation">
-                <button class="btn btn-request" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Unsolved Request</button>
+                <button class="btn btn-request" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Solved Request</button>
               </li>
             </ul>
             </div>
             <div class="tab-content" id="pills-tabContent">
               <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-                  {% for solved in solved_request %}
-                    <a href="/worker/request-details/{{ solved.req_id }}">
-                        <div class="row request-list page-white d-flex justify-content-between">
-                            <span class="font-weight-bold text-orange">{{ solved.subject }}</span> <span class="text-dark">{{ solved.req_date|date:"D d M Y H:i A" }}</span>
-                        </div>
-                    </a>
-                  {% endfor %}
-              </div> 
-
-              <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                   {% for row in unsolved_request %}
                     <a href="/worker/request-details/{{ row.req_id }}">
                         <div class="row request-list page-white d-flex justify-content-between">
@@ -49,6 +39,17 @@
                         </div>
                     </a>
                   {% endfor %}
+              </div> 
+
+              <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                  {% for solved in solved_request %}
+                    <a href="/worker/request-details/{{ solved.req_id }}">
+                        <div class="row request-list page-white d-flex justify-content-between">
+                            <span class="font-weight-bold text-orange">{{ solved.subject }}</span> <span class="text-dark">{{ solved.req_date|date:"D d M Y H:i A" }}</span>
+                        </div>
+                    </a>
+                  {% endfor %}
+                  
               </div>
               
             </div>
