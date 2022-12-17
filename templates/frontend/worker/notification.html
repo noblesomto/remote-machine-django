@@ -22,7 +22,7 @@
            <div class="notification-bg">
             <div class="h6 mt-10 mb-20">Notification List</div>
             {% for row in notification %}
-            <a class="text-decoration-none" href="/worker/notification-details/{{ row.id }}">
+            <a class="text-decoration-none text-black" href="/worker/notification-details/{{ row.id }}">
                 <div class="row mt-2 mb-3 ">
               
                   <div class="{{ row.request }}">
@@ -31,8 +31,8 @@
                     {% else %}
                     <h6 class="failure-text">Machine Failure</h6>
                     {% endif %}
-                     <h6>{{ row.machine_id.machine_name }}</h6>
-                     <p>
+                     <h6 class="text-orange">{{ row.machine_id.machine_name }}</h6>
+                     <p class="text-dark">
                         {{ row.description }}
                      </p>
                      <span class="notification-date">{{ row.not_date|date:"D d M Y" }}</span>

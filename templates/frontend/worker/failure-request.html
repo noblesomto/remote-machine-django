@@ -34,8 +34,8 @@
                 <form class="request-form" method="POST" action="/worker/failure/{{ machine_id }}" enctype="multipart/form-data">
                   {% csrf_token %}
                   <div class="row">
-                    <div class="col-8"><output id="result"></output></div>
-                    <div class="col-4">
+                    <div class="col-10"><output id="result"></output></div>
+                    <div class="col-2">
                       <div class="form-group">
                         <label for="files" class="filebutton">+ Add Images</label>
                          <input style="opacity:0" id="files" name="machine-image" type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control" required>
