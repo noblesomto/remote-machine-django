@@ -18,4 +18,5 @@ urlpatterns = [
     path('worker/monitor-machine/<str:machine_id>', views.monitor_machine, name='monitor_machine'),
     path('worker/serviceman/<str:id>', views.serviceman, name='serviceman'),
     path('worker/chat/<str:expert_id>/<str:req_id>', views.chat, name='chat'),
+    path('worker/request-status/<str:id>', views.request_status, name='request_status'),
 ]

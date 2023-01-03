@@ -29,7 +29,7 @@
             <div class="row mt-2 mb-3 page-white">
               
               <div class="col-10 machine-list">
-                <div class="machine-items"><span class="machine-bold">{{ row.subject }}  | </span>{{row.request_status}} </div>
+                <div class="machine-items"><span class="machine-bold">{{ row.subject }}  | </span>{{row.worker_status}} </div>
                 
               </div>
               <div class="col-2 toggle-button-2">
@@ -39,7 +39,7 @@
                   </button>
 
                   <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="/worker/chat/{{ row.machine_id.id }}/{{ row.req_id }}">Chat with Expert</a>
+                    <a class="dropdown-item" href="/worker/chat/{{ row.machine_id.machine_expert.id }}/{{ row.req_id }}">Chat with Expert</a>
                     <a class="dropdown-item" href="">Chat with Serviceman</a>
                   </div>
                 </div>
