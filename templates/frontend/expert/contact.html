@@ -25,6 +25,12 @@
               </div>
             </div>
 
+            <div class="col-12 mb-3 text-center">
+                {% for message in messages %}
+                  <div class="alert alert-success"> {{ message }} </div> 
+                  {% endfor  %}
+              </div>
+
             {% for row in request %}
             <div class="row mt-2 mb-3 page-white">
               

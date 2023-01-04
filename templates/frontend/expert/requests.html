@@ -15,23 +15,20 @@
         <div class="row d-flex justify-content-center">
 
          
-          <div class=" machine-bg">
+           <div class=" machine-bg">
 
             {% include "templates/frontend/includes/user-nav.html" %}
             
 
             <div class="request-title-bg text-center">
-              <ul class="nav nav-pills d-flex justify-content-center" id="pills-tab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="btn btn-request active" id="pills-home-tab" data-toggle="pill" data-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Unsolved Request</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="btn btn-request" id="pills-profile-tab" data-toggle="pill" data-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Solved Request</button>
-              </li>
-            </ul>
+              
+                <a class="btn btn-request " href="/expert/requests">Unsolved Request</a>
+              
+                <a class="btn btn-request active" href="/expert/solved-requests">Solved Request</a>
+
             </div>
-            <div class="tab-content" id="pills-tabContent">
-              <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div >
+             
                   {% for row in unsolved_request %}
                     <a href="/expert/request-details/{{ row.req_id }}">
                         <div class="row request-list page-white d-flex justify-content-between">
@@ -41,18 +38,9 @@
                   {% endfor %}
               </div> 
 
-              <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                  {% for solved in solved_request %}
-                    <a href="/expert/request-details/{{ solved.req_id }}">
-                        <div class="row request-list page-white d-flex justify-content-between">
-                            <span class="font-weight-bold text-orange">{{ solved.subject }}</span> <span class="text-dark">{{ solved.req_date|date:"D d M Y H:i A" }}</span>
-                        </div>
-                    </a>
-                  {% endfor %}
-                  
-              </div>
+
               
-            </div>
+     
 
 
           </div>

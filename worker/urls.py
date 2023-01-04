@@ -10,6 +10,7 @@ urlpatterns = [
     path('worker/assistance/<str:machine_id>', views.assistance, name='assistance'),
     path('worker/failure/<str:machine_id>', views.failure, name='failure'),
     path('worker/requests', views.requests, name='requests'),
+    path('worker/solved-requests', views.solved_requests, name='solved_requests'),
     path('worker/request-details/<str:id>', views.request_details, name='request_details'),
     path('worker/contact', views.contact, name='contact'),
     path('worker/notification', views.notification, name='notification'),

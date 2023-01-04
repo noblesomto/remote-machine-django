@@ -74,7 +74,7 @@
                   </div>
                 </div>
                 {% for row in chat %}
-                
+              
                 {% if request.session.user_id == row.user_id.id %}
 
                 <div class="col-12 ">
@@ -110,7 +110,7 @@
                       </div>
                     </div>
                     <div class="col-9">
-                          <form class="request-form" method="POST" action="/worker/chat/{{ expert_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                          <form class="request-form" method="POST" action="/expert/chat/{{ worker_id }}/{{ req.req_id }}" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-group">
                           <div class="row">

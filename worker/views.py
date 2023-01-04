@@ -116,8 +116,7 @@ def assistance(request, machine_id):
             not_status=not_status, not_id=Requests.objects.get(id=int(post.id)), not_sender=not_sender)
         notification.save()
 
-        messages.info(
-            request, 'Request successfully Submited')
+        messages.info(request, 'Request successfully Submited')
         return redirect('assistance', machine_id=machine_id)
     else:
         return render(request, 'frontend/worker/request-assistance.html', context)
@@ -177,11 +176,6 @@ def requests(request):
     context['notification'] = notification
     context['user'] = user
     context['title'] = "dashboard"
-    solved_request = Requests.objects.filter(request_status="Solved").order_by('-id')
-    solved_paginator = Paginator(solved_request, 20)
-    solved_page_number = request.GET.get('page')
-    solved_page = solved_paginator.get_page(solved_page_number)
-    context['solved_request'] = solved_page
 
     unsolved_request = Requests.objects.filter(request_status="Pending").order_by('-id')
     unsolved_paginator = Paginator(unsolved_request, 20)
@@ -190,6 +184,25 @@ def requests(request):
     context['unsolved_request'] = unsolved_page
 
     return render(request, 'frontend/worker/requests.html', context)
+
+
+def solved_requests(request):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['title'] = "dashboard"
+
+    solved_request = Requests.objects.filter(request_status="Solved").order_by('-id')
+    solved_paginator = Paginator(solved_request, 20)
+    solved_page_number = request.GET.get('page')
+    solved_page = solved_paginator.get_page(solved_page_number)
+    context['solved_request'] = solved_page
+
+    return render(request, 'frontend/worker/solved-requests.html', context)
 
 
 def request_details(request,id):
@@ -220,7 +233,7 @@ def contact(request):
     notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
     
     context['notification'] = notification
-    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending"))
+    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending")).order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
