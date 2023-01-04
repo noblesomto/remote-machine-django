@@ -236,7 +236,7 @@ def notification(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    posts = Notification.objects.exclude(not_sender="Worker")
+    posts = Notification.objects.exclude(not_sender="Worker").order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

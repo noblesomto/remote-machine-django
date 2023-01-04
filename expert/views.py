@@ -209,6 +209,9 @@ def request_details(request,id):
     context['title'] = "Request Details"
     context['request'] = req
     context['image'] = image
+    views = Requests.objects.get(req_id=req_id)
+    views.expert_view = views.expert_view + 1
+    views.save()
     return render(request, 'frontend/expert/request-details.html', context)
 
 
@@ -234,7 +237,7 @@ def notification(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    posts = Notification.objects.all()
+    posts = Notification.objects.exclude(not_sender="Expert").order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -425,6 +428,19 @@ def send_program(request, machine_id):
         return redirect('send_program', machine_id=machine_id)
     else:
         return render(request, 'frontend/expert/send-program.html', context)
+
+def activate_webcam(request, machine_id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=machine_id)
+    notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['machine'] = machine
+    context['title'] = "Status Report"
+    return render(request, 'frontend/expert/activate-webcam.html', context)
 
 def logout(request):
     request.session.clear()
