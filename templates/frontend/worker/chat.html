@@ -99,27 +99,43 @@
 
 
                 <div class="col-12 pt-50">
-                <form class="request-form" method="POST" action="/worker/chat/{{ expert_id }}/{{ req.req_id }}" enctype="multipart/form-data">
-                  {% csrf_token %}
-                    <div class="form-group">
-                    <div class="row">
-                      <div class="col-1">
-                      <div class="form-group">
-                        <label for="files" class="filebutton-2">+</label>
-                         <input style="opacity:0" id="files" name="machine-image" type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control" required>
+                <div class="row">
+                    <div class="col-3">
+                      <div class="pt-2">
+                        <form class="form-horizontal" action="/worker/request-status/{{ req.req_id }}" method="post">
+                          {% csrf_token %}
+                          <div class="btn-group btn-toggle"> 
+                            <input type="hidden" name="worker_status" value="Resolved">
+                          <span class="btn btn-xs btn-primary"  active>Pending</span>
+                          <button class="btn btn-xs btn-success" name="Resolved" value="resolved">Resolved</button>
+                          </div>
+                        </form>
                       </div>
                     </div>
-                      <div class="col-8">
-                        <input type="text" name="message" class="form-control" placeholder="Write Now..." required>
-                        <input type="hidden" name="req_id" class="form-control" value="{{ req.req_id }}" required>
-                      </div>
-                      <div class="col-2">
-                        <button class="btn btn-orange chat-btn font-weight-bold">Send <i class="fa fa-arrow-right"></i></button>
-                      </div>
+                    <div class="col-9">
+                          <form class="request-form" method="POST" action="/worker/chat/{{ expert_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                          <div class="form-group">
+                          <div class="row">
+                            <div class="col-2">
+                            <div class="form-group">
+                              <label for="files" class="filebutton-2">+</label>
+                               <input style="opacity:0" id="files" name="machine-image" type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control">
+                            </div>
+                          </div>
+                            <div class="col-7">
+                              <input type="text" name="message" class="form-control" placeholder="Write Now..." required>
+                              <input type="hidden" name="req_id" class="form-control" value="{{ req.req_id }}" required>
+                            </div>
+                            <div class="col-2">
+                              <button class="btn btn-orange chat-btn font-weight-bold">Send <i class="fa fa-arrow-right"></i></button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </form>
                     </div>
-                    
-                  </div>
-                </form>
+                </div>
               </div>
             </div>
           

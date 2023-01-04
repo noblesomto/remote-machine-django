@@ -7,7 +7,13 @@
         <div class="col-3 footer-nav"><a href="/worker/dashboard"><i class="fa fa-home"></i> Home</a></div>
         <div class="col-3 footer-nav"><a href="/worker/requests"><i class="fa fa-wpforms" ></i> Requests</a></div>
         <div class="col-3 footer-nav"><a href="/worker/contact"><i class="fa fa-envelope"></i> Contact</a></div>
-        <div class="col-3 footer-nav"><a href="/worker/notification"><i class="fa fa-bell"></i> Notification</a></div>
+        <div class="col-3 footer-nav"><a href="/worker/notification"><i class="fa fa-bell"></i> Notification
+          {% if notification == 0 %}
+            
+          {% else %}
+            <span class="badge badge-secondary">{{ notification }}</span>
+          {% endif %}
+        </a></div>
       </div>
     </div>
   </div>

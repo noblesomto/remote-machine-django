@@ -1,0 +1,133 @@
+
+*/
+.step-wrapper {
+  background-color: white;
+  padding: 15px 0 20px 0;
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .step-wrapper {
+    padding: 70px 0 40px 0;
+  }
+}
+
+@media print {
+  .step-wrapper {
+    display: none !important;
+  }
+}
+
+.step-wrapper header {
+  padding: 0;
+}
+
+.step-wrapper header .title {
+  padding-top: 15px;
+  color: white;
+}
+
+@media (min-width: 768px) {
+  .step-wrapper header .title {
+    padding-top: 40px;
+  }
+}
+
+.step-wrapper .stepper {
+  color: white;
+}
+
+.step-wrapper .stepper > ul {
+  display: table;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.step-wrapper .stepper > ul > li {
+  display: table-cell;
+  vertical-align: middle;
+  position: relative;
+  text-align: center;
+  padding: 0;
+}
+
+.step-wrapper .stepper > ul > li:first-child:before {
+  display: none;
+}
+
+.step-wrapper .stepper > ul > li:before {
+  background-color: #dddddd;
+  position: absolute;
+  display: block;
+  content: "";
+  width: 100%;
+  height: 1px;
+  top: 50%;
+  right: 50%;
+  z-index: 0;
+}
+
+.step-wrapper .stepper > ul > li span {
+  background-color: white;
+  font-size: 50px;
+  width: 50px;
+  height: 50px;
+  display: inline-block;
+  position: relative;
+  z-index: 9;
+  color: #dddddd;
+  font-family: 'LinearIcons';
+}
+
+.step-wrapper .stepper > ul > li span:before {
+  font-family: FontAwesome;
+    content: "\f057";
+}
+
+.step-wrapper .stepper > ul > li span:after {
+  content: attr(data-text);
+  position: absolute;
+  display: inline-block;
+  bottom: 100%;
+  text-transform: uppercase;
+  text-align: center;
+  width: initial;
+  left: 50%;
+  font-size: 10px;
+  white-space: nowrap;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  font-family: "Montserrat", sans-serif;
+}
+
+@media (min-width: 992px) {
+  .step-wrapper .stepper > ul > li span {
+    width: 50px;
+    height: 60px;
+    font-size: 50px;
+    line-height: 60px;
+  }
+  .step-wrapper .stepper > ul > li span:after {
+    font-size: 15px;
+    line-height: initial;
+  }
+}
+
+.step-wrapper .stepper > ul > li.active:before {
+  background-color: black;
+}
+
+.step-wrapper .stepper > ul > li.active span {
+  color: black;
+}
+
+.step-wrapper .stepper > ul > li.active span:before {
+  content: "\f058";
+  color: green;
+}
+
+/*  

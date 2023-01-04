@@ -4,8 +4,8 @@ from django.contrib.auth.models import User, UserManager, auth
 from django.contrib import messages
 from django.http import HttpResponse
 import random
-from user.models import Notification, User, Machine
-from worker.models import Requests, RequestImage, Chat
+from user.models import Notification, User, Machine, Requests, RequestImage
+from worker.models import Chat
 from .models import Expert_chat
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
@@ -63,7 +63,7 @@ def dashboard(request):
     return render(request, 'frontend/serviceman/dashboard.html', context)
 
 
-def maintenance(request, machine_id):
+def run_maintenance(request, machine_id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
