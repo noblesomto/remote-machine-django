@@ -28,8 +28,7 @@
             <div class="row mt-2 mb-3 page-white">
               <div class="col-12 request-img d-flex justify-content-start">
                 {% for row in image %}
-                <img src="/media/{{ row.image }}" class="img-fluid" alt="">
-
+                <a href="/media/{{ row.image }}" data-lightbox="photos"><img class="img-fluid" src="/media/{{ row.image }}"></a>
                 {% endfor %}
               </div>
               <div class="col-12 mt-20 pl-20">
@@ -47,13 +46,36 @@
                 
               </div>
 
-              <div class="col-12 mt-20 pl-20 mb-3">
-                {% if request.request_status == "Solved" %}
-                  Status: <span class="text-success font-weight-bold">{{ request.request_status }}</span>
-                {% else %}
-                  Status: <span class="text-danger font-weight-bold">{{ request.request_status }}</span>
-                {% endif %}
+              <div class="col-12 mt-20 pl-20">
+                  {% if request.request_status == "Solved" %}
+                        Status: <span class="text-success font-weight-bold">{{ request.request_status }}</span>
+                      {% else %}
+                        Status: <span class="text-danger font-weight-bold">{{ request.request_status }}</span>
+                      {% endif %}
+                </div>
+
+              <div class="col-12 mt-20 pl-20 mb-20">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="pt-2">
+                    <form class="form-horizontal" action="/worker/request-status/{{ request.req_id }}" method="post">
+                      {% csrf_token %}
+                      <div class="btn-group btn-toggle"> 
+                        <input type="hidden" name="worker_status" value="Resolved">
+                      <span class="btn btn-xs btn-danger"  active>Pending</span>
+                      <button class="btn btn-xs btn-success" name="Resolved" value="resolved">Resolved</button>
+                      </div>
+                    </form>
+                  </div>
+                      
+                  </div>
+                  <div class="col-6 text-right font-weight-bold ">
+                    <a href="/worker/chat/{{ request.machine_id.machine_expert.id }}/{{ request.req_id }}" class="btn btn-orange">Chat with Expert</a>
+                  </div>
+                </div>
               </div>
+
+              
             </div>
 
        

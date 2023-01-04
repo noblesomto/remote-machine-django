@@ -194,6 +194,24 @@ def requests(request):
 
     return render(request, 'frontend/expert/requests.html', context)
 
+def solved_requests(request):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['title'] = "Requests"
+    solved_request = Requests.objects.filter(request_status="Solved").order_by('-id')
+    solved_paginator = Paginator(solved_request, 20)
+    solved_page_number = request.GET.get('page')
+    solved_page = solved_paginator.get_page(solved_page_number)
+    context['solved_request'] = solved_page
+
+
+    return render(request, 'frontend/expert/solved-requests.html', context)
+
 
 def request_details(request,id):
     context = {}
@@ -220,7 +238,7 @@ def contact(request):
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
 
-    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending"))
+    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending")).order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -287,6 +305,7 @@ def chat(request, machine_id, req_id):
     user = User.objects.get(id=user_id)
     machine = Machine.objects.get(id=machine_id)
     worker_id = machine.machine_worker_id
+    expert_id = machine.machine_expert_id
     
     userchat = User.objects.get(id=worker_id)
     req = Requests.objects.get(req_id=req_id)
@@ -302,6 +321,7 @@ def chat(request, machine_id, req_id):
     context['req'] = req
     context['chat'] = chat
     context['machine_id'] = machine_id
+    context['expert_id'] = expert_id
     context['image'] = image
     context['title'] = "Chat"
     if request.method == "POST":
@@ -327,8 +347,7 @@ def expert_request_status(request,id):
     post.expert_status = expert_status
     post.save()
 
-    messages.info(
-        request, 'Request status was Changed successfully')
+    messages.info(request, 'Request status was Changed successfully')
     return redirect('/expert/contact')
 
 def chat_serviceman(request, expert_id, machine_id):

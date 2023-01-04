@@ -13,6 +13,7 @@ urlpatterns = [
     path('expert/machine-status/<str:machine_id>', views.machine_status, name='machine_status'),
     path('expert/maintenance/<str:machine_id>', views.maintenance, name='maintenance'),
     path('expert/requests', views.requests, name='requests'),
+    path('expert/solved-requests', views.solved_requests, name='solved_requests'),
     path('expert/request-details/<str:id>', views.request_details, name='request_details'),
     path('expert/contact', views.contact, name='contact'),
     path('expert/notification', views.notification, name='notification'),

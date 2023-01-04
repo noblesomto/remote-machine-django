@@ -22,21 +22,21 @@
 
             <div class="request-title-bg text-center">
               
-                <a class="btn btn-request " href="/worker/requests">Unsolved Request</a>
+                <a class="btn btn-request active" href="/worker/requests">Unsolved Request</a>
               
-                <a class="btn btn-request active" href="/worker/solved-requests">Solved Request</a>
+                <a class="btn btn-request" href="/worker/solved-requests">Solved Request</a>
 
             </div>
-            <div >
-             
-                  {% for row in unsolved_request %}
-                    <a href="/worker/request-details/{{ row.req_id }}">
-                        <div class="row request-list page-white d-flex justify-content-between">
-                            <span class="font-weight-bold text-orange">{{ row.subject }}</span> <span class="text-dark">{{ row.req_date|date:"D d M Y H:i A" }}</span>
-                        </div>
-                    </a>
-                  {% endfor %}
-              </div> 
+
+            <div>
+                {% for row in solved_request %}
+                  <a href="/worker/request-details/{{ row.req_id }}">
+                      <div class="row request-list page-white d-flex justify-content-between">
+                          <span class="font-weight-bold text-orange">{{ row.subject }}</span> <span class="text-dark">{{ row.req_date|date:"D d M Y H:i A" }}</span>
+                      </div>
+                  </a>
+                {% endfor %}
+            </div> 
 
 
               

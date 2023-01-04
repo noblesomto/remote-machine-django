@@ -15,22 +15,22 @@
         <div class="row d-flex justify-content-center">
 
          
-          <div class=" machine-bg">
+           <div class=" machine-bg">
 
             {% include "templates/frontend/includes/user-nav.html" %}
             
 
             <div class="request-title-bg text-center">
               
-                <a class="btn btn-request " href="/worker/requests">Unsolved Request</a>
+                <a class="btn btn-request active" href="/expert/requests">Unsolved Request</a>
               
-                <a class="btn btn-request active" href="/worker/solved-requests">Solved Request</a>
+                <a class="btn btn-request" href="/expert/solved-requests">Solved Request</a>
 
             </div>
             <div >
              
-                  {% for row in unsolved_request %}
-                    <a href="/worker/request-details/{{ row.req_id }}">
+                  {% for row in solved_request %}
+                    <a href="/expert/request-details/{{ row.req_id }}">
                         <div class="row request-list page-white d-flex justify-content-between">
                             <span class="font-weight-bold text-orange">{{ row.subject }}</span> <span class="text-dark">{{ row.req_date|date:"D d M Y H:i A" }}</span>
                         </div>
@@ -54,5 +54,5 @@
 
 
 
-{% include "templates/frontend/worker/includes/nav.html" %}
+{% include "templates/frontend/expert/includes/nav.html" %}
 {% include "templates/frontend/includes/footer-dashboard.html" %}
