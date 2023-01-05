@@ -22,7 +22,7 @@ def login(request):
         password = request.POST.get('password')
 
         try:
-            user = User.objects.get(email=email)
+            user = User.objects.get(Q(email=email) & Q(user_category="Expert"))
         except User.DoesNotExist:
             user = None
             messages.info(request, 'Email Address is not correct or Does not exist')
