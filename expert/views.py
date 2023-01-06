@@ -111,6 +111,20 @@ def monitor_machine(request, machine_id):
 
     return render(request, 'frontend/expert/monitor-machine.html', context)
 
+def monitor_cobot(request, machine_id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=machine_id)
+    notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['machine'] = machine
+    context['title'] = "Status Report"
+
+    return render(request, 'frontend/expert/monitor-cobot.html', context)
+
 
 def machine_status(request, machine_id):
     context = {}
@@ -445,7 +459,7 @@ def send_program(request, machine_id):
         del request.session['machine_id']
         
         messages.info(request, 'Program successfully Sent')
-        return redirect('send_program', machine_id=machine_id)
+        return redirect('define_program', id=machine_id)
     else:
         return render(request, 'frontend/expert/send-program.html', context)
 
