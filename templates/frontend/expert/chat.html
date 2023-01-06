@@ -52,7 +52,7 @@
                   <div class="chatbox-page">
                       <div class="col-12 request-img d-flex justify-content-start">
                             {% for row in image %}
-                            <img src="/media/{{ row.image }}" class="img-fluid" alt="">
+                            <a href="/media/{{ row.image }}" data-lightbox="photos"><img class="img-fluid" src="/media/{{ row.image }}"></a>
 
                             {% endfor %}
                           </div>
@@ -110,7 +110,7 @@
                       </div>
                     </div>
                     <div class="col-9">
-                          <form class="request-form" method="POST" action="/expert/chat/{{ worker_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                          <form class="request-form" method="POST" action="/expert/chat/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-group">
                           <div class="row">

@@ -108,6 +108,7 @@ def monitor_machine(request, machine_id):
     context['user'] = user
     context['machine'] = machine
     context['title'] = "Status Report"
+
     return render(request, 'frontend/expert/monitor-machine.html', context)
 
 
