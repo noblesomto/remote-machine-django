@@ -469,3 +469,9 @@ form label{
   z-index: 200;
 
 }
+
+.closeDiv{
+	color: red;
+	font-size: 20px;
+	font-weight: bold;
+}
