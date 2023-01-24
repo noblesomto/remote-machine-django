@@ -4,44 +4,43 @@
 
 
 
-<main id="main" class="mt-50 main-box">
+<main id="main" class="main-box">
 
     
 
     <!-- ======= Contact Section ======= -->
     <section class="page-content">
-      <div class="container">
+      <div class="container-fluid">
 
         <div class="row d-flex justify-content-center">
 
          
-          <div class="col-lg-12 machine-bg">
-
-           <div class="mt-50 mb-20"> </div>
-           
-            <div class="row mb-3">
-              <div class="col-12 text-center">
-                <div class="font-weight-bold pl-3 maintenance-text">Notification</div>
-              </div>
-            </div>
+          <div class="machine-bg">
+            {% include "templates/frontend/includes/user-nav.html" %}
+           <div class="notification-bg">
             <div class="h6 mt-10 mb-20">Notification List</div>
             {% for row in notification %}
-            <div class="row mt-2 mb-3 page-white">
+            <a class="text-decoration-none text-black" href="/serviceman/request-details/{{ row.not_id.req_id }}">
+                <div class="row mt-2 mb-3 ">
               
-              <div class="{{ row.request }}">
-                {% if row.request == "maintenance" %}
-                    <h6 class="maintenance-text">Maintenance Day</h6>
-                {% else %}
-                <h6 class="failure-text">Machine Failure</h6>
-                {% endif %}
-                 <h6>{{ row.title }}</h6>
-                 <p>
-                    {{ row.description }}
-                 </p>
-                 <span class="notification-date">{{ row.not_date|date:"D d M Y" }}</span>
-              </div>
-            </div>
+                  <div class="{{ row.request }}">
+                    {% if row.request == "maintenance" %}
+                        <h6 class="maintenance-text">Maintenance Request</h6>
+                    {% else %}
+                    <h6 class="failure-text">Machine Failure</h6>
+                    {% endif %}
+                     <h6 class="text-orange">{{ row.machine_id.machine_name }}</h6>
+                     <p class="text-dark">
+                        {{ row.description }}
+                     </p>
+                     <span class="notification-date">{{ row.not_date|date:"D d M Y" }}</span>
+                  </div>
+                </div>
+            </a>
             {% endfor %}
+
+            <div class="mb-50"> </div>
+            </div>
 
             <div class="mb-50"> </div>
 
@@ -57,5 +56,5 @@
 
 
 
-{% include "templates/frontend/expert/includes/nav.html" %}
+{% include "templates/frontend/serviceman/includes/nav.html" %}
 {% include "templates/frontend/includes/footer-dashboard.html" %}

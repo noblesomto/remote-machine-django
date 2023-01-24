@@ -10,37 +10,35 @@
 
     <!-- ======= Contact Section ======= -->
     <section class="page-content">
-      <div class="container">
+      <div class="container-fluid">
 
         <div class="row d-flex justify-content-center">
 
          
-          <div class="col-lg-12 machine-bg">
+          <div class="machine-bg">
 
-            <div class="row mt-4 pb-4 border-bottom">
-              <div class="col-2 text-left text-orange">
-                <a href="/expert/contact"><i class="fa fa-angle-left fa-2x"></i></a>
-              </div>
-              <div class="col-10 text-center font-weight-bold">
-                <div>Contact Expert</div>
-              </div>
-              
-            </div>
+            {% include "templates/frontend/includes/user-nav.html" %}
 
             <div class="row page-header">
                 <div class="col-12 ">
                   <div class="row">
-                    <div class="col-3 page-user-picture"><img src="/media/{{userchat.user_picture}}" ></div>
-                    <div class="col-9 text-left page-name"> 
-                      <div class="row">
-                        <div class="col-9 pt-2">
-                          Expert - <span class="text-orange text-capitalize font-weight-bold">{{userchat.first_name}} {{userchat.last_name}}</span><br>
-                          <small>Online</small>
+                    <div class="col-8 offset-2 chat-header">
+                        <div class="row">
+                            <div class="col-1 page-user-picture"><img src="/media/{{userchat.user_picture}}" ></div>
+                        <div class="col-11 text-left page-name"> 
+                          <div class="row">
+                            <div class="col-9 pl-5">
+                              Expert - <span class="text-orange text-capitalize font-weight-bold">{{userchat.first_name}} {{userchat.last_name}}</span><br> <small class="text-danger font-weight-bold">Offline</small>
+                              
+                            </div>
+                            <div class="col-3 chat-header-icon text-left">
+                              <a class="text-orange" href="tel:{{ userchat.phone }}"><i class="fa fa-phone"></i></a>
+                              <a class="text-orange" href=""><i class="fa fa-video-camera" aria-hidden="true"></i></a>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-3 text-left">
-                          <div class="contact-icon text-center"><a href="tel:{{ userchat.phone }}"><i class="fa fa-phone"></i></a></div>
                         </div>
-                      </div>
+
                     </div>
                   </div>
                 </div>
@@ -59,18 +57,18 @@
                             
                           </div>
                           <div class="col-12 mt-20 pl-20">
-                            <span class="text-gray"><small>Name</small></span><br>
-                            <span class="text-white">{{ machine.machine_name }}</span>
+                            <span class="text-orange"><small>Name</small></span><br>
+                            <span class="text-black">{{ machine.machine_name }}</span>
                           </div>
 
-                          <div class="col-12 mt-20 pl-20">
-                            <span class="text-gray"><small>Machine Type</small></span><br>
-                            <span class="text-white">{{ machine.machine_type }}</span>
+                          <div class="col-12 mt-10 pl-20">
+                            <span class="text-orange"><small>Machine Type</small></span><br>
+                            <span class="text-black">{{ machine.machine_type }}</span>
                           </div>
 
-                          <div class="col-12 mt-20 pl-20">
-                            <span class="text-gray"><small>Machine Code</small></span><br>
-                            <span class="text-white">{{ machine.machine_code }}</span>
+                          <div class="col-12 mt-10 pl-20">
+                            <span class="text-orange"><small>Machine Code</small></span><br>
+                            <span class="text-black">{{ machine.machine_code }}</span>
                           </div>
                   </div>
                 </div>
@@ -96,22 +94,33 @@
                 {% endfor %}
 
 
-                <div class="col-12 chatbox-page pt-50">
-                <form class="request-form" method="POST" action="/serviceman/chat-expert/{{ expert_id }}/{{ machine_id }}" enctype="multipart/form-data">
-                  {% csrf_token %}
-                    <div class="form-group">
-                    <div class="row">
-                      <div class="col-10">
-                        <input type="text" name="message" class="form-control" placeholder="Write Now..." required>
-                        <input type="hidden" name="machine_id" class="form-control" value="{{ machine_id }}" required>
-                      </div>
-                      <div class="col-2">
-                        <button class="btn btn-orange"><i class="fa fa-arrow-right"></i></button>
-                      </div>
-                    </div>
+                <div class="col-12 pt-50">
+                <div class="row">
                     
-                  </div>
-                </form>
+                    <div class="col-12">
+                          <form class="request-form" method="POST" action="/serviceman/chat-expert/{{ expert_id }}/{{ machine_id }}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                          <div class="form-group">
+                          <div class="row">
+                            <div class="col-2">
+                            <div class="form-group">
+                              <label for="files" class="filebutton-2">+</label>
+                               <input style="opacity:0" id="files" name="machine-image" type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control">
+                            </div>
+                          </div>
+                            <div class="col-7">
+                              <input type="text" name="message" class="form-control" placeholder="Write Now..." required>
+                              <input type="hidden" name="req_id" class="form-control" value="{{ req.req_id }}" required>
+                            </div>
+                            <div class="col-2">
+                              <button class="btn btn-orange chat-btn font-weight-bold">Send <i class="fa fa-arrow-right"></i></button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </form>
+                    </div>
+                </div>
               </div>
             </div>
 

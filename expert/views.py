@@ -365,32 +365,38 @@ def expert_request_status(request,id):
     messages.info(request, 'Request status was Changed successfully')
     return redirect('/expert/contact')
 
-def chat_serviceman(request, expert_id, machine_id):
+def chat_serviceman(request, machine_id, req_id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
     machine = Machine.objects.get(id=machine_id)
-    worker_id = machine.machine_serviceman_id
-    chat = Expert_chat.objects.filter(machine_id=machine_id)
-    userchat = User.objects.get(id=worker_id)
+    worker_id = machine.machine_worker_id
+    serviceman_id = machine.machine_serviceman_id
+    
+    userchat = User.objects.get(id=serviceman_id)
+    req = Requests.objects.get(req_id=req_id)
+    chat = Expert_chat.objects.filter(req_id=req_id)
+    image = RequestImage.objects.filter(req_id=req_id)
+    req_id = req_id
+    machine_id = machine_id
     notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
     
     context['notification'] = notification
     context['user'] = user
     context['userchat'] = userchat
-    context['machine_id'] = machine_id
-    context['expert_id'] = expert_id
-    context['machine'] = machine
+    context['req'] = req
     context['chat'] = chat
+    context['machine_id'] = machine_id
+    context['image'] = image
     context['title'] = "Chat"
     if request.method == "POST":
-        machine_id = request.POST['machine_id']
+        req_id = request.POST['req_id']
         message = request.POST['message']
         post = Expert_chat.objects.create(
-            user_id=User.objects.get(id=int(user_id)), machine_id=Machine.objects.get(id=int(machine_id)), message=message)
+            user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
         post.save()
         
-        return redirect('chat_serviceman', expert_id=expert_id, machine_id=machine_id)
+        return redirect('chat_serviceman', machine_id=machine_id, req_id=req_id)
     else:
         return render(request, 'frontend/expert/chat-serviceman.html', context)
 
