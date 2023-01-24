@@ -54,6 +54,10 @@ footer{
 .text-gray{
 	color: #CCC !important;
 }
+
+.text-black{
+	color: #000 !important;
+}
 .text-orange{
 	color: #d74815 !important;
 }
@@ -289,6 +293,16 @@ form label{
 	margin-right: auto;
 	margin-left: auto;
 }
+.request-title-bg-2{
+	background: #fbe5d6;
+	border-radius: 50px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 90%;
+	margin-right: auto;
+	margin-left: auto;
+}
+
 .tab-pane a{
 	text-decoration: none;
 }

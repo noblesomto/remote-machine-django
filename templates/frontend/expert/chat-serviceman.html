@@ -7,6 +7,7 @@
 <main id="main" class=" main-box">
 
     
+
     <!-- ======= Contact Section ======= -->
     <section class="page-content">
       <div class="container-fluid">
@@ -47,34 +48,36 @@
 
             <div class="row">
            
-                <div class="col-12 chatbox-page">
-                  <div class="chatbox-1">
+                <div class="col-12 ">
+                  <div class="chatbox-page">
                       <div class="col-12 request-img d-flex justify-content-start">
-                             <img src="/media/{{ machine.machine_picture }}" class="img-fluid" alt="">
+                            {% for row in image %}
+                            <a href="/media/{{ row.image }}" data-lightbox="photos"><img class="img-fluid" src="/media/{{ row.image }}"></a>
 
-                            
+                            {% endfor %}
                           </div>
                           <div class="col-12 mt-20 pl-20">
-                            <span class="text-black font-weight-bold"><small>Name</small></span><br>
-                            <span class="text-black">{{ machine.machine_name }}</span>
-                          </div>
-
-                          <div class="col-12 mt-20 pl-20">
-                            <span class="text-black font-weight-bold"><small>Machine Type</small></span><br>
-                            <span class="text-black-700">{{ machine.machine_type }}</span>
+                            <span class="text-orange"><small>Subject</small></span><br>
+                            <span class="text-black">{{ req.subject }}</span>
                           </div>
 
                           <div class="col-12 mt-20 pl-20">
-                            <span class="text-black font-weight-bold"><small>Machine Code</small></span><br>
-                            <span class="text-black">{{ machine.machine_code }}</span>
+                            <span class="text-orange"><small>Description</small></span><br>
+                            <span class="text-black">{{ req.description }}</span>
+                          </div>
+
+                          <div class="col-12 mt-20 pl-20">
+                            <small>
+                            <span class="text-black-700">{{ req.req_date|date:"D d M Y" }}</span> <strong>at</strong> <span class="text-black">{{ req.req_date|date:"H:i A" }}</span>
+                            </small>
                           </div>
                   </div>
                 </div>
                 {% for row in chat %}
-                
+              
                 {% if request.session.user_id == row.user_id.id %}
 
-                <div class="col-12 chatbox-page">
+                <div class="col-12 ">
                   <div class="chatbox-2">
                    {{ row.message }}
                    <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
@@ -82,7 +85,7 @@
 
                 </div>
                 {% else %}
-                  <div class="col-12 chatbox-page">
+                  <div class="col-12 ">
                   <div class="chatbox-1">
                     {{ row.message }}
                     <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
@@ -92,24 +95,36 @@
                 {% endfor %}
 
 
-                <div class="col-12 chatbox-page pt-50">
-                <form class="request-form" method="POST" action="/expert/serviceman-chat/{{ expert_id }}/{{ machine_id }}" enctype="multipart/form-data">
-                  {% csrf_token %}
-                    <div class="form-group">
-                    <div class="row">
-                      <div class="col-10">
-                        <input type="text" name="message" class="form-control" placeholder="Write Now..." required>
-                        <input type="hidden" name="machine_id" class="form-control" value="{{ machine_id }}" required>
-                      </div>
-                      <div class="col-2">
-                        <button class="btn btn-orange"><i class="fa fa-arrow-right"></i></button>
-                      </div>
+                <div class="col-12 pt-50">
+                <div class="row">
+              
+                    <div class="col-12">
+                          <form class="request-form" method="POST" action="/expert/serviceman-chat/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                          <div class="form-group">
+                          <div class="row">
+                            <div class="col-2">
+                            <div class="form-group">
+                              <label for="files" class="filebutton-2">+</label>
+                               <input style="opacity:0" id="files" name="machine-image" type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control">
+                            </div>
+                          </div>
+                            <div class="col-7">
+                              <input type="text" name="message" class="form-control" placeholder="Write Now..." required>
+                              <input type="hidden" name="req_id" class="form-control" value="{{ req.req_id }}" required>
+                            </div>
+                            <div class="col-2">
+                              <button class="btn btn-orange chat-btn font-weight-bold">Send <i class="fa fa-arrow-right"></i></button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </form>
                     </div>
-                    
-                  </div>
-                </form>
+                </div>
               </div>
             </div>
+          
 
             <div class="row ">
               

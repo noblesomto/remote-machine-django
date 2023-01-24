@@ -21,7 +21,7 @@ def login(request):
         password = request.POST.get('password')
 
         try:
-            user = User.objects.get(Q(email=email) & Q(user_category="Worker"))
+            user = User.objects.get(Q(email=email) & Q(user_category="Serviceman"))
         except User.DoesNotExist:
             user = None
             messages.info(request, 'Email Address is not correct or Does not exist')
@@ -53,7 +53,7 @@ def dashboard(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    machine = Machine.objects.filter(machine_type="Machine").order_by('-id')
+    machine = Machine.objects.filter(machine_serviceman=user_id).order_by('-id')
     paginator = Paginator(machine, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -64,22 +64,73 @@ def dashboard(request):
     return render(request, 'frontend/serviceman/dashboard.html', context)
 
 
-def run_maintenance(request, machine_id):
+def run_daignostics(request, id):
+    machine_id = id
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    machine = Machine.objects.filter(machine_type="Machine").order_by('-id')
-    paginator = Paginator(machine, 20)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
     
+    context['notification'] = notification
+    context['machine_id'] = machine_id
     context['user'] = user
-    context['machine'] = page_obj
     context['title'] = "dashboard"
-    return render(request, 'frontend/serviceman/run-maintenance.html', context)
+    
+    return render(request, 'frontend/serviceman/run-daignostics.html', context)
+
+
+def start_monitoring(request, id):
+    machine_id = id
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
+    
+    context['notification'] = notification
+    context['machine_id'] = machine_id
+    context['user'] = user
+    context['title'] = "dashboard"
+    
+    return render(request, 'frontend/serviceman/start-monitoring.html', context)
+
+def software_updates(request, id):
+    machine_id = id
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
+    
+    context['notification'] = notification
+    context['machine_id'] = machine_id
+    context['user'] = user
+    context['title'] = "dashboard"
+
+    if request.method == "POST":
+        
+        messages.info(request, 'Software successfully Updated')
+        return redirect('software_updates', id=machine_id)
+    else:
+    
+        return render(request, 'frontend/serviceman/software-updates.html', context)
 
 
 def requests(request):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    
+    context['user'] = user
+    context['title'] = "Requests"
+
+    unsolved_request = Requests.objects.filter(request_status="Pending").order_by('-id')
+    unsolved_paginator = Paginator(unsolved_request, 20)
+    unsolved_page_number = request.GET.get('page')
+    unsolved_page = unsolved_paginator.get_page(unsolved_page_number)
+    context['unsolved_request'] = unsolved_page
+
+    return render(request, 'frontend/serviceman/requests.html', context)
+
+def solved_requests(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
@@ -98,7 +149,7 @@ def requests(request):
     unsolved_page = unsolved_paginator.get_page(unsolved_page_number)
     context['unsolved_request'] = unsolved_page
 
-    return render(request, 'frontend/serviceman/requests.html', context)
+    return render(request, 'frontend/serviceman/solved-requests.html', context)
 
 
 def request_details(request,id):
@@ -122,7 +173,7 @@ def contact(request):
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
 
-    posts = Requests.objects.all()
+    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending")).order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -153,11 +204,12 @@ def chat(request, machine_id, req_id):
     user = User.objects.get(id=user_id)
     machine = Machine.objects.get(id=machine_id)
     worker_id = machine.machine_worker_id
+    expert_id = machine.machine_expert_id
     
 
-    userchat = User.objects.get(id=worker_id)
+    userchat = User.objects.get(id=expert_id)
     req = Requests.objects.get(req_id=req_id)
-    chat = Chat.objects.filter(req_id=req_id)
+    chat = Expert_chat.objects.filter(req_id=req_id)
     image = RequestImage.objects.filter(req_id=req_id)
     req_id = req_id
     machine_id = machine_id
@@ -172,13 +224,13 @@ def chat(request, machine_id, req_id):
     if request.method == "POST":
         req_id = request.POST['req_id']
         message = request.POST['message']
-        post = Chat.objects.create(
+        post = Expert_chat.objects.create(
             user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
         post.save()
         
         return redirect('chat', machine_id=machine_id, req_id=req_id)
     else:
-        return render(request, 'frontend/expert/chat.html', context)
+        return render(request, 'frontend/serviceman/chat.html', context)
 
 
 def chat_expert(request, expert_id, machine_id):
