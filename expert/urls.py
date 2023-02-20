@@ -28,5 +28,6 @@ urlpatterns = [
     path('expert/send-program/<str:machine_id>', views.send_program, name='send_program'),
     path('expert/activate-webcam/<str:machine_id>', views.activate_webcam, name='activate_webcam'),
     path('expert/service-reminder/<str:id>', views.service_reminder, name='service_reminder'),
+    path('expert/machine-alarm/<str:id>', views.machine_alarm, name='machine_alarm'),
 
 ]

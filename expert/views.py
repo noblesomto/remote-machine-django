@@ -536,6 +536,17 @@ def service_reminder(request, id):
     else:
         return render(request, 'frontend/expert/service-reminder.html', context)
 
+def machine_alarm(request, id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = get_notification(request)
+
+    context['notification'] = notification
+    context['user'] = user
+    context['title'] = "Machine Alarm"
+    return render(request, 'frontend/expert/machine-alarm.html', context)
+
 def logout(request):
     request.session.clear()
     return redirect('login')

@@ -311,38 +311,30 @@ def serviceman(request, id):
     context['title'] = "dashboard"
     return render(request, 'frontend/worker/serviceman.html', context)
 
-def connect_smartglass(request, id):
-    req_id = id
+def connect_smartglass(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    machine = Machine.objects.get(id=id)
     serviceman = User.objects.filter(user_category="Serviceman")
     notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
     context['serviceman'] = serviceman
-    context['req_id'] = req_id
-    context['machine'] = machine
     context['title'] = "Connect Smart Glass"
     return render(request, 'frontend/worker/connect-smartglass.html', context)
 
 
-def connecting_smartglass(request, id):
-    req_id = id
+def connecting_smartglass(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    machine = Machine.objects.get(id=id)
     serviceman = User.objects.filter(user_category="Serviceman")
     notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
     context['serviceman'] = serviceman
-    context['req_id'] = req_id
-    context['machine'] = machine
     context['title'] = "Connect Smart Glass"
     return render(request, 'frontend/worker/connecting-smartglass.html', context)
 
@@ -400,7 +392,6 @@ def video_call(request, id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    caller = User.objects.get(id=id)
     notification = get_notification(request)
     
     context['notification'] = notification
@@ -452,12 +443,10 @@ def machine_alarm(request, id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    caller = User.objects.get(id=id)
     notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
-    context['caller'] = caller
     context['title'] = "Machine Alarm"
     return render(request, 'frontend/worker/machine-alarm.html', context)
 
