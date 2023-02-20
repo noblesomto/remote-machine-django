@@ -32,8 +32,8 @@
                               
                             </div>
                             <div class="col-3 chat-header-icon text-left">
-                              <a class="text-orange" href="tel:{{ userchat.phone }}"><i class="fa fa-phone"></i></a>
-                              <a class="text-orange" href=""><i class="fa fa-video-camera" aria-hidden="true"></i></a>
+                              <a class="text-orange" href="/expert/video-call/{{userchat.id }}"><i class="fa fa-phone"></i></a>
+                              <a class="text-orange" href="/expert/video-call/{{userchat.id }}"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
                             </div>
                           </div>
                         </div>
@@ -79,7 +79,7 @@
 
                 <div class="col-12 ">
                   <div class="chatbox-2">
-                   {{ row.message }}
+                   {{ row.message|safe }}
                    <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
                   </div>
 
@@ -87,7 +87,7 @@
                 {% else %}
                   <div class="col-12 ">
                   <div class="chatbox-1">
-                    {{ row.message }}
+                    {{ row.message|safe }}
                     <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
                   </div>
                 </div>
@@ -98,7 +98,7 @@
                 <div class="col-12 pt-50">
                 <div class="row">
                     <div class="col-3">
-                      <div class="pt-2">
+                      <div class="pt-2 pt-40">
                         <form class="form-horizontal" action="/expert/request-status/{{ req.req_id }}" method="post">
                           {% csrf_token %}
                           <div class="btn-group btn-toggle"> 
@@ -110,23 +110,24 @@
                       </div>
                     </div>
                     <div class="col-9">
-                          <form class="request-form" method="POST" action="/expert/chat/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                          <form class="request-form" method="POST" action="/expert/chat-2/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-group">
                           <div class="row">
-                            <div class="col-2">
-                            <div class="form-group">
-                              <label for="files" class="filebutton-2">+</label>
-                               <input style="opacity:0" id="files" name="machine-image" type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control">
-                            </div>
-                          </div>
-                            <div class="col-7">
-                              <input type="text" name="message" class="form-control" placeholder="Write Now..." required>
+     
+                            <div class="col-10">
+                              <span class="error" style="color: #a80000;font-weight: bold;"></span>
+                              <div style="border: 1px solid #ccc; border-radius: 5px; padding: 1px; margin: 20px;">
+                                <textarea name="message" class="tinymce" id="mytextarea"></textarea>
+                              </div>
+                              
                               <input type="hidden" name="req_id" class="form-control" value="{{ req.req_id }}" required>
                             </div>
-                            <div class="col-2">
-                              <button class="btn btn-orange chat-btn font-weight-bold">Send <i class="fa fa-arrow-right"></i></button>
+                            <div class="col-2 pt-40">
+
+                              <input class="btn btn-orange chat-btn font-weight-bold" type="submit" name="submit" value="Send" id="submit" />
                             </div>
+                           
                           </div>
                           
                         </div>
@@ -153,7 +154,6 @@
     </section><!-- End Contact Section -->
 
   </main><!-- End #main -->
-
 
 
 {% include "templates/frontend/expert/includes/nav.html" %}

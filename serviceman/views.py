@@ -48,6 +48,9 @@ def logout(request):
     request.session.clear()
     return redirect('/serviceman/login')
 
+def get_notification(request):
+    notification = Requests.objects.filter((Q(request_sender="Expert") | Q(request_type="Reminder")) & Q(serviceman_view="0")).count()
+    return notification
 
 def dashboard(request):
     context = {}
@@ -57,7 +60,9 @@ def dashboard(request):
     paginator = Paginator(machine, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    notification = get_notification(request)
     
+    context['notification'] = notification
     context['user'] = user
     context['machine'] = page_obj
     context['title'] = "dashboard"
@@ -69,7 +74,7 @@ def run_daignostics(request, id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['machine_id'] = machine_id
@@ -84,7 +89,7 @@ def start_monitoring(request, id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['machine_id'] = machine_id
@@ -98,7 +103,7 @@ def software_updates(request, id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(expert_view="0").exclude(request_sender="Expert").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['machine_id'] = machine_id
@@ -121,7 +126,9 @@ def requests(request):
     
     context['user'] = user
     context['title'] = "Requests"
-
+    notification = get_notification(request)
+    
+    context['notification'] = notification
     unsolved_request = Requests.objects.filter(request_status="Pending").order_by('-id')
     unsolved_paginator = Paginator(unsolved_request, 20)
     unsolved_page_number = request.GET.get('page')
@@ -134,7 +141,9 @@ def solved_requests(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
+    notification = get_notification(request)
     
+    context['notification'] = notification
     context['user'] = user
     context['title'] = "Requests"
     solved_request = Requests.objects.filter(request_status="Solved").order_by('-id')
@@ -160,11 +169,17 @@ def request_details(request,id):
     req_id = id
     req = Requests.objects.get(req_id=req_id)
     image = RequestImage.objects.filter(req_id=req_id)
-
+    notification = get_notification(request)
+    
+    context['notification'] = notification
     context['user'] = user
     context['title'] = "Request Details"
     context['request'] = req
     context['image'] = image
+    views = Requests.objects.get(req_id=req_id)
+    views.serviceman_view = views.serviceman_view + 1
+    views.save()
+
     return render(request, 'frontend/serviceman/request-details.html', context)
 
 
@@ -177,7 +192,9 @@ def contact(request):
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    notification = get_notification(request)
     
+    context['notification'] = notification    
     context['user'] = user
     context['request'] = page_obj
     context['title'] = "dashboard"
@@ -188,13 +205,15 @@ def notification(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    posts = Notification.objects.all()
+    posts = Notification.objects.filter(Q(not_sender="Expert") | Q(request="reminder")).order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+    notification = get_notification(request)
     
+    context['notification'] = notification 
     context['user'] = user
-    context['notification'] = page_obj
+    context['noti'] = page_obj
     context['title'] = "Notification"
     return render(request, 'frontend/serviceman/notification.html', context)
 
@@ -213,7 +232,9 @@ def chat(request, machine_id, req_id):
     image = RequestImage.objects.filter(req_id=req_id)
     req_id = req_id
     machine_id = machine_id
-
+    notification = get_notification(request)
+    
+    context['notification'] = notification
     context['user'] = user
     context['userchat'] = userchat
     context['req'] = req
@@ -240,8 +261,9 @@ def chat_expert(request, expert_id, machine_id):
     machine = Machine.objects.get(id=machine_id)
     chat = Expert_chat.objects.filter(machine_id=machine_id)
     userchat = User.objects.get(id=expert_id)
+    notification = get_notification(request)
     
-
+    context['notification'] = notification    
     context['user'] = user
     context['userchat'] = userchat
     context['machine_id'] = machine_id

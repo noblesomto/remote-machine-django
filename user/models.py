@@ -74,3 +74,5 @@ class Notification(models.Model):
 
     class Meta:
         db_table = 'notification'
+
+

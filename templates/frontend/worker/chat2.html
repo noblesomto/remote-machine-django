@@ -1,0 +1,184 @@
+{% include "templates/frontend/includes/header.html" %}
+
+{% load static %}
+
+
+
+<main id="main" class=" main-box">
+
+    
+
+    <!-- ======= Contact Section ======= -->
+    <section class="page-content">
+      <div class="container-fluid">
+
+        <div class="row d-flex justify-content-center">
+
+         
+          <div class="machine-bg">
+
+          
+              {% include "templates/frontend/includes/user-nav.html" %}
+              
+
+
+            <div class="row page-header">
+                <div class="col-12 ">
+                  <div class="row">
+                    <div class="col-8 offset-2 chat-header">
+                        <div class="row">
+                            <div class="col-1 page-user-picture"><img src="/media/{{userchat.user_picture}}" ></div>
+                        <div class="col-11 text-left page-name"> 
+                          <div class="row">
+                            <div class="col-9 pl-5">
+                              Expert - <span class="text-orange text-capitalize font-weight-bold">{{userchat.first_name}} {{userchat.last_name}}</span><br> <small class="text-danger font-weight-bold">Offline</small>
+                              
+                            </div>
+                            <div class="col-3 chat-header-icon text-left">
+                              <a class="text-orange" href="/worker/video-call/{{userchat.id }}"><i class="fa fa-phone"></i></a>
+                              <a class="text-orange" href="/worker/video-call/{{userchat.id }}"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
+                            </div>
+                          </div>
+                        </div>
+                        </div>
+
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+
+
+            <div class="row">
+           
+                <div class="col-12 ">
+                  <div class="chatbox-page">
+                      <div class="col-12 request-img d-flex justify-content-start">
+                            {% for row in image %}
+                            <a href="/media/{{ row.image }}" data-lightbox="photos"><img class="img-fluid" src="/media/{{ row.image }}"></a>
+
+                            {% endfor %}
+                          </div>
+                          <div class="col-12 mt-20 pl-20">
+                            <span class="text-orange"><small>Subject</small></span><br>
+                            <span class="text-black">{{ req.subject }}</span>
+                          </div>
+
+                          <div class="col-12 mt-20 pl-20">
+                            <span class="text-orange"><small>Description</small></span><br>
+                            <span class="text-black">{{ req.description }}</span>
+                          </div>
+
+                          <div class="col-12 mt-20 pl-20">
+                            <small>
+                            <span class="text-black-700">{{ req.req_date|date:"D d M Y" }}</span> <strong>at</strong> <span class="text-black">{{ req.req_date|date:"H:i A" }}</span>
+                            </small>
+                          </div>
+                  </div>
+                </div>
+                {% for row in chat %}
+      
+                {% if request.session.user_id == row.user_id.id %}
+
+                <div class="col-12 ">
+                  <div class="chatbox-2">
+                   {{ row.message }}
+                   <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
+                  </div>
+
+                </div>
+                {% else %}
+                  <div class="col-12 ">
+                  <div class="chatbox-1">
+                    {{ row.message }}
+                    <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
+                  </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+
+                <div class="col-12 pt-50">
+                <div class="row">
+                    <div class="col-3">
+                      <div class="pt-2">
+                        <form class="form-horizontal" action="/worker/request-status/{{ req.req_id }}" method="post">
+                          {% csrf_token %}
+                          <div class="btn-group btn-toggle"> 
+                            <input type="hidden" name="worker_status" value="Resolved">
+                          <span class="btn btn-xs btn-danger"  active>Pending</span>
+                          <button class="btn btn-xs btn-success" name="Resolved" value="resolved">Resolved</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="col-9">
+                          <form class="request-form" method="POST" action="/worker/chat/{{ expert_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                          <div class="form-group">
+                          <div class="row">
+                            <div class="col-2">
+                            <div class="form-group">
+                              <label for="files" class="filebutton-2">+</label>
+                               <input style="opacity:0" id="files" name="machine-image" type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control">
+                            </div>
+                          </div>
+                            <div class="col-7">
+                              <div style="border: 1px solid #ccc; border-radius: 5px; padding: 1px; margin: 20px;">
+                                <textarea id="mytextarea"></textarea>
+                              </div>
+                              <input type="text" name="message" class="form-control" placeholder="Write Now..." required>
+                              <input type="hidden" name="req_id" class="form-control" value="{{ req.req_id }}" required>
+                            </div>
+                            <div class="col-2">
+                              <button class="btn btn-orange chat-btn font-weight-bold">Send <i class="fa fa-arrow-right"></i></button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </form>
+                    </div>
+                </div>
+              </div>
+            </div>
+          
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+
+<script type="text/javascript">
+  tinymce.init({
+    selector: "#mytextarea",
+    menubar: false,
+    toolbar_location: "bottom",
+    plugins: "link lists emoticons image autoresize",
+    toolbar: "bold italic strikethrough link numlist bullist blockquote emoticons image | mySendButton",
+  setup: function (editor) {
+    editor.ui.registry.addButton("mySendButton", {
+      tooltip: "Send Message",
+    text: "Send",
+      onAction: function () {
+        alert(editor.getContent());
+    editor.resetContent();
+      }
+    });
+  },
+  skin: "borderless",
+  icons: "small",
+  statusbar: false,
+  autoresize_bottom_margin: 0,
+  max_height: 500,
+  placeholder: "Enter message . . ."
+});
+</script>
+
+{% include "templates/frontend/worker/includes/nav.html" %}
+{% include "templates/frontend/includes/footer-dashboard.html" %}
