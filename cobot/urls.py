@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('expert.urls')),
     path('', include('worker.urls')),
     path('', include('serviceman.urls')),
+    path('tinymce/', include('tinymce.urls')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

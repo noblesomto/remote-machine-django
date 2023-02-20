@@ -19,13 +19,15 @@
             {% include "templates/frontend/includes/user-nav.html" %}
            <div class="notification-bg">
             <div class="h6 mt-10 mb-20">Notification List</div>
-            {% for row in notification %}
+            {% for row in noti %}
             <a class="text-decoration-none text-black" href="/serviceman/request-details/{{ row.not_id.req_id }}">
                 <div class="row mt-2 mb-3 ">
               
                   <div class="{{ row.request }}">
                     {% if row.request == "maintenance" %}
                         <h6 class="maintenance-text">Maintenance Request</h6>
+                    {% elif row.request == "reminder" %}
+                        <h6 class="maintenance-text">Service Reminder</h6>
                     {% else %}
                     <h6 class="failure-text">Machine Failure</h6>
                     {% endif %}

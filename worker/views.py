@@ -47,6 +47,10 @@ def logout(request):
     request.session.clear()
     return redirect('/worker/login')
 
+def get_notification(request):
+    notification = Requests.objects.filter(worker_view="0").exclude(Q(request_sender="Worker") | Q(request_type="Reminder")).count()
+    return notification
+
 
 def dashboard(request):
     context = {}
@@ -56,12 +60,13 @@ def dashboard(request):
     paginator = Paginator(machine, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
+
 
     context['notification'] = notification
     context['user'] = user
     context['machine'] = page_obj
-    context['title'] = "dashboard"
+    context['title'] = "Dashboard"
     return render(request, 'frontend/worker/dashboard.html', context)
 
 
@@ -70,7 +75,7 @@ def monitor_machine(request, machine_id):
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
     machine = Machine.objects.get(id=machine_id)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
@@ -83,7 +88,7 @@ def assistance(request, machine_id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
@@ -128,7 +133,7 @@ def failure(request, machine_id):
     context['machine_id'] = machine_id
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
@@ -172,13 +177,13 @@ def requests(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
     context['title'] = "dashboard"
 
-    unsolved_request = Requests.objects.filter(request_status="Pending").order_by('-id')
+    unsolved_request = Requests.objects.filter(request_status="Pending").exclude(request_type="Reminder").order_by('-id')
     unsolved_paginator = Paginator(unsolved_request, 20)
     unsolved_page_number = request.GET.get('page')
     unsolved_page = unsolved_paginator.get_page(unsolved_page_number)
@@ -191,13 +196,13 @@ def solved_requests(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
     context['title'] = "dashboard"
 
-    solved_request = Requests.objects.filter(request_status="Solved").order_by('-id')
+    solved_request = Requests.objects.filter(request_status="Solved").order_by('-id').exclude(request_type="Reminder")
     solved_paginator = Paginator(solved_request, 20)
     solved_page_number = request.GET.get('page')
     solved_page = solved_paginator.get_page(solved_page_number)
@@ -210,7 +215,7 @@ def request_details(request,id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     req_id = id
@@ -231,10 +236,10 @@ def contact(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
-    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending")).order_by('-id')
+    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending")).exclude(request_type="Reminder").order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -250,11 +255,11 @@ def notification(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    posts = Notification.objects.exclude(not_sender="Worker").order_by('-id')
+    posts = Notification.objects.exclude(Q(not_sender="Worker") | Q(request="reminder")).order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
@@ -281,7 +286,7 @@ def experts(request, id):
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
     expert = User.objects.filter(user_category="Expert")
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
@@ -297,7 +302,7 @@ def serviceman(request, id):
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
     serviceman = User.objects.filter(user_category="Serviceman")
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
@@ -306,6 +311,40 @@ def serviceman(request, id):
     context['title'] = "dashboard"
     return render(request, 'frontend/worker/serviceman.html', context)
 
+def connect_smartglass(request, id):
+    req_id = id
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=id)
+    serviceman = User.objects.filter(user_category="Serviceman")
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['serviceman'] = serviceman
+    context['req_id'] = req_id
+    context['machine'] = machine
+    context['title'] = "Connect Smart Glass"
+    return render(request, 'frontend/worker/connect-smartglass.html', context)
+
+
+def connecting_smartglass(request, id):
+    req_id = id
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=id)
+    serviceman = User.objects.filter(user_category="Serviceman")
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['serviceman'] = serviceman
+    context['req_id'] = req_id
+    context['machine'] = machine
+    context['title'] = "Connect Smart Glass"
+    return render(request, 'frontend/worker/connecting-smartglass.html', context)
 
 def chat(request, expert_id, req_id):
     context = {}
@@ -318,7 +357,7 @@ def chat(request, expert_id, req_id):
     image = RequestImage.objects.filter(req_id=req_id)
     req_id = req_id
     expert_id = expert_id
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
@@ -344,7 +383,7 @@ def request_status(request,id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(worker_view="0").exclude(request_sender="Worker").count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     worker_status = request.POST['worker_status']
@@ -356,6 +395,71 @@ def request_status(request,id):
     messages.info(
         request, 'Request status was Changed successfully')
     return redirect('/worker/contact')
+
+def video_call(request, id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    caller = User.objects.get(id=id)
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['caller'] = caller
+    context['title'] = "Video Call"
+    return render(request, 'frontend/worker/video-call.html', context)
+
+
+def service_reminder(request, id): 
+    context = {}
+    context['machine_id'] = id
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['title'] = "Send Service Reminder"
+    if request.method == "POST":
+        machine_id = request.POST['machine_id']
+        subject = request.POST['subject']
+        description = request.POST['description']
+        req_id = random.randint(00000, 99999)
+        request_type = "Reminder"
+        request_status = "Pending"
+        request_sender = "Worker"
+        post = Requests.objects.create(
+            req_id=req_id, machine_id=Machine.objects.get(id=int(machine_id)), subject=subject, request_type=request_type,
+            description=description, request_status=request_status)
+        post.save()
+     
+        not_status = "Active"
+        request_type = "reminder"
+        not_sender = "Worker"
+        title = "Service Reminder"
+        notification = Notification.objects.create(
+            machine_id=Machine.objects.get(id=int(machine_id)), request=request_type, title=title, description=description,
+            not_status=not_status, not_id=Requests.objects.get(id=int(post.id)), not_sender=not_sender)
+        notification.save()
+
+        messages.info(
+            request, 'Service Reminder successfully Submited')
+        return redirect('service_reminder', id=machine_id)
+    else:
+        return render(request, 'frontend/worker/service-reminder.html', context)
+
+def machine_alarm(request, id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    caller = User.objects.get(id=id)
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['caller'] = caller
+    context['title'] = "Machine Alarm"
+    return render(request, 'frontend/worker/machine-alarm.html', context)
 
 
 def logout(request):

@@ -9,6 +9,65 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
 
+<script type="text/javascript">
+ $(function () {
+  
+  $('.error').hide();
+  
+    tinymce.init({
+        selector: "#mytextarea",
+        menubar: false,
+        toolbar_location: "bottom",
+        plugins: "link lists emoticons image autoresize editimage",
+        toolbar: "bold italic strikethrough link numlist bullist blockquote emoticons image ",
+        images_upload_url: "/page/upload_image",
+        skin: "borderless",
+        icons: "small",
+        statusbar: false,
+        autoresize_bottom_margin: 0,
+        max_height: 150,
+        placeholder: "Enter message . . .",
+    
+    //////////////////this was added to make the "required" attribute work///////////////////
+        setup: function (editor) {
+            editor.on('change', function () {
+                tinymce.triggerSave();
+        chkSubmit();
+            });
+        }
+    //////////////////this was added to make the "required" attribute work///////////////////
+    
+    });
+
+  
+  
+$(document).on('click', '#submit', chkSubmit);
+  
+  function chkSubmit() {
+
+      var msg = $('.tinymce').val();
+      
+      var textmsg = $.trim($(msg).text());
+      
+        if (textmsg == '') {
+          
+          //alert('nogo');
+          $('.error').show();
+          $('.error').html('Please fill out Chat Box');
+          return false;
+        }
+        else{
+          //alert(textmsg);
+          $('.error').hide();
+          $('.error').html('');
+          
+        }
+    
+    }
+
+}); 
+
+</script>
 
 </body>
 

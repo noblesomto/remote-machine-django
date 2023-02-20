@@ -19,12 +19,14 @@ urlpatterns = [
     path('expert/notification', views.notification, name='notification'),
     path('expert/workers/<str:id>', views.workers, name='workers'),
     path('expert/serviceman/<str:id>', views.serviceman, name='serviceman'),
-    path('expert/chat/<str:machine_id>/<str:req_id>', views.chat, name='chat'),
+    path('expert/chat-2/<str:machine_id>/<str:req_id>', views.chat_2, name='chat_2'),
+    path('expert/video-call/<str:id>', views.video_call, name='video_call'),
     path('expert/request-status/<str:id>', views.expert_request_status, name='expert_request_status'),
     path('expert/serviceman-chat/<str:machine_id>/<str:req_id>', views.chat_serviceman, name='chat_serviceman'),
     path('expert/define-program/<str:id>', views.define_program, name='define_program'),
     path('expert/simulate-program/<str:machine_id>', views.simulate_program, name='simulate_program'),
     path('expert/send-program/<str:machine_id>', views.send_program, name='send_program'),
     path('expert/activate-webcam/<str:machine_id>', views.activate_webcam, name='activate_webcam'),
+    path('expert/service-reminder/<str:id>', views.service_reminder, name='service_reminder'),
 
 ]

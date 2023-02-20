@@ -1,0 +1,80 @@
+{% include "templates/frontend/includes/header.html" %}
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js'></script>
+{% load static %}
+
+
+
+<main id="main" class="main-box ">
+
+    
+
+    <!-- ======= Contact Section ======= -->
+    <section class="page-content ">
+      <div class="container-fluid">
+
+        <div class="row d-flex justify-content-center ">
+
+         
+          <div class="machine-bg2 ">
+
+            <div class="row mt-10 mb-3 pt-40 page-white">
+              <div class="col-12 pb-20">
+                <div class="font-weight-bold text-center ">Mirror screen to smart glass</div>
+              </div>
+
+        
+              <div class="col-12 mt-20 text-center">
+                <div class="row">
+                  <div class="col-md-5 col-12">
+                    
+                      <div class="connect-smartglass">
+                        <img src="/static/frontend/images/laptop.png" class="img-fluid">
+                      </div>
+                      <div class="bg-orange text-white mb-3">
+                        My Screen
+                      </div>
+                      
+                  </div>
+
+                  <div class="col-md-2 col-12 text-center pt-70">
+                      
+                      <form class="form-horizontal" action="" method="post">
+                      {% csrf_token %}
+                      <div class="btn-group btn-toggle"> 
+                      <button class="btn btn-xs btn-success" name="Resolved" value="resolved">Active</button>
+                      <a href="/worker/connecting-smartglass/{{ machine.id }}" class="btn btn-xs btn-danger" >Connect</a>
+                      
+                      </div>
+                    </form>
+                  
+                  </div>
+
+                  <div class="col-md-5 col-12">
+                      <div class="connect-smartglass">
+                        <img src="/static/frontend/images/smart-glass.png" class="img-fluid">
+                      </div>
+                    <div class="bg-orange text-white mb-3">
+                      Smart Glass
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              
+
+    
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+
+
+{% include "templates/frontend/worker/includes/nav.html" %}
+{% include "templates/frontend/includes/footer-dashboard.html" %}
