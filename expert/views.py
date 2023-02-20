@@ -281,6 +281,19 @@ def video_call(request, id):
     context['title'] = "Video Call"
     return render(request, 'frontend/expert/video-call.html', context)
 
+def video_call_2(request, id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    caller = User.objects.get(id=id)
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['caller'] = caller
+    context['title'] = "Video Call"
+    return render(request, 'frontend/expert/video-call-2.html', context)
+
 
 def notification(request):
     context = {}

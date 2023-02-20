@@ -21,6 +21,7 @@ urlpatterns = [
     path('expert/serviceman/<str:id>', views.serviceman, name='serviceman'),
     path('expert/chat-2/<str:machine_id>/<str:req_id>', views.chat_2, name='chat_2'),
     path('expert/video-call/<str:id>', views.video_call, name='video_call'),
+    path('expert/video-call-2/<str:id>', views.video_call_2, name='video_call_2'),
     path('expert/request-status/<str:id>', views.expert_request_status, name='expert_request_status'),
     path('expert/serviceman-chat/<str:machine_id>/<str:req_id>', views.chat_serviceman, name='chat_serviceman'),
     path('expert/define-program/<str:id>', views.define_program, name='define_program'),
