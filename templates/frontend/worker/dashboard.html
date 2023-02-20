@@ -16,8 +16,9 @@
 
             {% include "templates/frontend/includes/user-nav.html" %}
             
-            <div class="row">
+            <div class="row d-flex justify-content-between">
               <div class="font-weight-bold pl-3">Machine List</div>
+              <div class="font-weight-bold pl-3"><a class="text-orange" href="/worker/connect-smartglass">Connect Smart Glass</a></div>
             </div>
 
             {% for row in machine %}
@@ -39,7 +40,6 @@
                     <a class="dropdown-item" href="/worker/monitor-machine/{{ row.id }}">Monitor Machine</a>
                     <a class="dropdown-item" href="/worker/assistance/{{ row.id }}">Request expert assistance</a>
                     <a class="dropdown-item" href="/worker/failure/{{ row.id }}">Report machine failure</a>
-                    <a class="dropdown-item" href="/worker/connect-smartglass/{{ row.id }}">Connect Smart Glass</a>
                     <a class="dropdown-item" href="/worker/service-reminder/{{ row.id }}">Send Service Reminder</a>
                     <a class="dropdown-item" href="/worker/machine-alarm/{{ row.id }}">Machine Alarm</a>
                     

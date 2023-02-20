@@ -281,3 +281,16 @@ def chat_expert(request, expert_id, machine_id):
         return redirect('chat_expert', expert_id=expert_id, machine_id=machine_id)
     else:
         return render(request, 'frontend/serviceman/chat-expert.html', context)
+
+def video_call(request, id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    caller = User.objects.get(id=id)
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['caller'] = caller
+    context['title'] = "Video Call"
+    return render(request, 'frontend/serviceman/video-call.html', context)
