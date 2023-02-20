@@ -86,7 +86,10 @@ DATABASES = {
         'NAME': 'cobot',
         'USER': os.getenv('DEVUSER'),
         'PASSWORD': os.getenv('DEVPASS'),
-        'HOST': 'localhost'
+        'HOST': 'localhost',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        }
     }
 }
 
