@@ -24,7 +24,7 @@
                     {% csrf_token %}
                     <div class="form-group has-search">
                       <span class="fa fa-search form-control-feedback"></span>
-                      <input type="text" name="search" class="form-control" placeholder="Search Machines">
+                      <input type="text" name="search"  class="form-control" placeholder="Search Machines">
                     </div>
                   </form>
               </div>
@@ -60,6 +60,12 @@
                 </div>
               </div>
             </div>
+
+            {% empty %}
+
+        <div style="font-weight: 600; font-size: larger;">No Machine Matches the Search " <i>{{ query }}</i> "</div>
+
+
             {% endfor %}
 
           </div>
