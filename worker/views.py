@@ -181,7 +181,7 @@ def requests(request):
     
     context['notification'] = notification
     context['user'] = user
-    context['title'] = "dashboard"
+    context['title'] = "Requests"
 
     unsolved_request = Requests.objects.filter(request_status="Pending").exclude(request_type="Reminder").order_by('-id')
     unsolved_paginator = Paginator(unsolved_request, 20)
@@ -200,7 +200,7 @@ def solved_requests(request):
     
     context['notification'] = notification
     context['user'] = user
-    context['title'] = "dashboard"
+    context['title'] = "Solved Requests"
 
     solved_request = Requests.objects.filter(request_status="Solved").order_by('-id').exclude(request_type="Reminder")
     solved_paginator = Paginator(solved_request, 20)
@@ -246,7 +246,7 @@ def contact(request):
     
     context['user'] = user
     context['request'] = page_obj
-    context['title'] = "dashboard"
+    context['title'] = "Contact"
     return render(request, 'frontend/worker/contact.html', context)
 
 
@@ -396,7 +396,6 @@ def video_call(request, id):
     
     context['notification'] = notification
     context['user'] = user
-    context['caller'] = caller
     context['title'] = "Video Call"
     return render(request, 'frontend/worker/video-call.html', context)
 
