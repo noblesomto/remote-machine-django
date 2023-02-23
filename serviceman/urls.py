@@ -18,5 +18,6 @@ urlpatterns = [
     path('serviceman/chat-expert/<str:expert_id>/<str:machine_id>', views.chat_expert, name='chat_expert'),
     path('serviceman/chat/<str:machine_id>/<str:req_id>', views.chat, name='chat'),
     path('serviceman/video-call/<str:id>', views.video_call, name='video_call'),
+    path('serviceman/search', views.search, name='search'),
 
 ]

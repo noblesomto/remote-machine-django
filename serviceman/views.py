@@ -294,3 +294,39 @@ def video_call(request, id):
     context['caller'] = caller
     context['title'] = "Video Call"
     return render(request, 'frontend/serviceman/video-call.html', context)
+
+
+PER_PAGE = 8
+
+def search(request, *args, **kwargs):
+
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = get_notification(request)
+
+    # Search
+    search = ""
+    if request.GET:
+        search = request.GET.get('search', '')
+        context['query'] = str(search)
+    machine = Machine.objects.filter(
+        machine_name__icontains=search) | Machine.objects.filter(
+        machine_code__icontains=search).order_by('-id')
+
+    # Pagination
+    page = request.GET.get('page', 1)
+    machine_paginator = Paginator(machine, PER_PAGE)
+    try:
+        machine = machine_paginator.page(page)
+    except PageNotAnInteger:
+        machine = machine_paginator.page(PER_PAGE)
+    except EmptyPage:
+        machine = machine_paginator.page(machine_paginator.num_pages)
+
+    context['machine'] = machine
+    context['title'] = "Search Result"
+    context['notification'] = notification
+    context['user'] = user
+
+    return render(request, 'frontend/serviceman/search.html', context)
