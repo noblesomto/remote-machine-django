@@ -577,3 +577,5 @@ form label{
 	margin-bottom: 20px;
 	width: 100%;
 }
+
+.mce-notification {display: none !important;}
