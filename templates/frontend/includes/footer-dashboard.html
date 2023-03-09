@@ -26,6 +26,10 @@
         statusbar: false,
         autoresize_bottom_margin: 0,
         max_height: 150,
+        init_instance_callback : function(editor) {
+        var freeTiny = document.querySelector('.tox .tox-notification--in');
+       freeTiny.style.display = 'none';
+      },
         placeholder: "Enter message . . .",
     
     //////////////////this was added to make the "required" attribute work///////////////////
