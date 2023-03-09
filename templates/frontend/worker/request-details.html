@@ -32,6 +32,15 @@
                 {% endfor %}
               </div>
               <div class="col-12 mt-20 pl-20">
+                <span class="text-orange">Machine No:</span>
+                <b>{{ request.machine_id.machine_name}}</b>
+              </div>
+              <div class="col-12 mt-20 pl-20">
+                <span class="text-orange">Machine Code:</span>
+                <b>{{ request.machine_id.machine_code}}</b>
+              </div>
+
+              <div class="col-12 mt-20 pl-20">
                 <span class="text-orange">Subject</span><br>
                 {{ request.subject}}
               </div>
@@ -39,6 +48,11 @@
               <div class="col-12 mt-20 pl-20">
                 <span class="text-orange">Description</span><br>
                 {{ request.description }}
+              </div>
+
+              <div class="col-12 mt-20 pl-20">
+                <span class="text-orange">Status:</span>
+                <a href="/worker/monitor-machine/{{ request.machine_id.id }}">View Machine Status</a>
               </div>
 
               <div class="col-12 mt-20 pl-20">
