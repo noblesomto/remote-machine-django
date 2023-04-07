@@ -25,16 +25,16 @@
             <div class="row page-header">
                 <div class="col-12 ">
                   <div class="row">
-                    <div class="col-8 offset-2 chat-header">
+                    <div class="chat-header">
                         <div class="row">
                             <div class="col-1 page-user-picture"><img src="/media/{{userchat.user_picture}}" ></div>
                         <div class="col-11 text-left page-name"> 
                           <div class="row">
-                            <div class="col-9 pl-5">
+                            <div class="col-md-9 col-8 pl-5">
                               Expert - <span class="text-orange text-capitalize font-weight-bold">{{userchat.first_name}} {{userchat.last_name}}</span><br> <small class="text-danger font-weight-bold">Offline</small>
                               
                             </div>
-                            <div class="col-3 chat-header-icon text-left">
+                            <div class="col-md-3 col-4 chat-header-icon text-left">
                               <a class="text-orange" href="/worker/video-call/{{userchat.id }}"><i class="fa fa-phone"></i></a>
                               <a class="text-orange" href="/worker/video-call/{{userchat.id }}"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
                             </div>
@@ -98,9 +98,9 @@
                 {% endfor %}
 
 
-                <div class="col-12 pt-50">
+               
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-md-3 col-12">
                       <div class="pt-40">
                         <form class="form-horizontal" action="/worker/request-status/{{ req.req_id }}" method="post">
                           {% csrf_token %}
@@ -112,13 +112,13 @@
                         </form>
                       </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-md-9 col-12">
                           <form class="request-form" method="POST" action="/worker/chat/{{ expert_id }}/{{ req.req_id }}" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-group">
                           <div class="row">
      
-                            <div class="col-10">
+                            <div class="col-md-10 col-12">
                               <span class="error" style="color: #a80000;font-weight: bold;"></span>
                               <div style="border: 1px solid #ccc; border-radius: 5px; padding: 1px; margin: 20px;">
                                 <textarea name="message" class="tinymce" id="mytextarea"></textarea>
@@ -126,8 +126,7 @@
                               
                               <input type="hidden" name="req_id" class="form-control" value="{{ req.req_id }}" required>
                             </div>
-                            <div class="col-2 pt-40">
-
+                            <div class="col-md-2 col-12">
                               <input class="btn btn-orange chat-btn font-weight-bold" type="submit" name="submit" value="Send" id="submit" />
                             </div>
                            

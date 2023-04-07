@@ -289,6 +289,7 @@ form label{
 .chat-btn{
 	height: 60px;
 	width: 200px;
+	margin-top: 40px;
 }
 
 .request-form textarea {
@@ -462,6 +463,9 @@ form label{
 .chat-header{
 	background: #fdfcf9;
 	border-radius: 20px;
+	width: 80%;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 .chat-header-icon .fa{

@@ -129,7 +129,7 @@ def requests(request):
     notification = get_notification(request)
     
     context['notification'] = notification
-    unsolved_request = Requests.objects.filter(request_status="Pending").order_by('-id')
+    unsolved_request = Requests.objects.filter(request_status="Pending").exclude(request_sender="Worker").order_by('-id')
     unsolved_paginator = Paginator(unsolved_request, 20)
     unsolved_page_number = request.GET.get('page')
     unsolved_page = unsolved_paginator.get_page(unsolved_page_number)
@@ -146,7 +146,7 @@ def solved_requests(request):
     context['notification'] = notification
     context['user'] = user
     context['title'] = "Requests"
-    solved_request = Requests.objects.filter(request_status="Solved").order_by('-id')
+    solved_request = Requests.objects.filter(request_status="Solved").exclude(request_sender="Worker").order_by('-id')
     solved_paginator = Paginator(solved_request, 20)
     solved_page_number = request.GET.get('page')
     solved_page = solved_paginator.get_page(solved_page_number)
