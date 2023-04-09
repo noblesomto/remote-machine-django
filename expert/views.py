@@ -188,6 +188,51 @@ def maintenance(request, machine_id):
     else:
         return render(request, 'frontend/expert/request-maintenance.html', context)
 
+def failure(request, machine_id): 
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = Requests.objects.filter(expert_view="0").exclude(Q(request_sender="Expert") | Q(request_type="Reminder")).count()
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['machine_id'] = machine_id
+    context['title'] = "Report Machine Failure"
+    if request.method == "POST":
+        subject = request.POST['subject']
+        description = request.POST['description']
+        req_id = random.randint(00000, 99999)
+        machine_id = machine_id
+        request_type = "Failure"
+        request_status = "Pending"
+        request_sender = "Expert"
+        post = Requests.objects.create(
+            req_id=req_id, machine_id=Machine.objects.get(id=int(machine_id)), subject=subject, request_type=request_type,
+            description=description,request_sender=request_sender, request_status=request_status)
+        post.save()
+
+        images = request.FILES.getlist('machine-image')
+        for image in images:
+            photo = RequestImage.objects.create(
+                image=image,
+                req_id=req_id,
+            )
+
+        not_status = "Active"
+        request_type = "failure"
+        not_sender = "Expert"
+        title = "Machine no #" + machine_id
+        notification = Notification.objects.create(
+            machine_id=Machine.objects.get(id=int(machine_id)), request=request_type, title=title, description=description,
+            not_status=not_status, not_id=Requests.objects.get(id=int(post.id)), not_sender=not_sender)
+        notification.save()
+
+        messages.info(
+            request, 'Request successfully Submited')
+        return redirect('failure', machine_id=machine_id)
+    else:
+        return render(request, 'frontend/expert/report-failure.html', context)
+
 
 def requests(request):
     context = {}

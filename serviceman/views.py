@@ -7,6 +7,7 @@ import random
 from user.models import Notification, User, Machine, Requests, RequestImage
 from worker.models import Chat
 from .models import Expert_chat
+from worker.models import Serviceman_chat
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -82,6 +83,51 @@ def run_daignostics(request, id):
     context['title'] = "dashboard"
     
     return render(request, 'frontend/serviceman/run-daignostics.html', context)
+
+def request_assistance(request, machine_id): 
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = Requests.objects.filter(expert_view="0").exclude(Q(request_sender="Expert") | Q(request_type="Reminder")).count()
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['machine_id'] = machine_id
+    context['title'] = "Request Maintanace"
+    if request.method == "POST":
+        subject = request.POST['subject']
+        description = request.POST['description']
+        req_id = random.randint(00000, 99999)
+        machine_id = machine_id
+        request_type = "Maintanace"
+        request_status = "Pending"
+        request_sender = "Expert"
+        post = Requests.objects.create(
+            req_id=req_id, machine_id=Machine.objects.get(id=int(machine_id)), subject=subject, request_type=request_type,
+            description=description,request_sender=request_sender, request_status=request_status)
+        post.save()
+
+        images = request.FILES.getlist('machine-image')
+        for image in images:
+            photo = RequestImage.objects.create(
+                image=image,
+                req_id=req_id,
+            )
+
+        not_status = "Active"
+        request_type = "maintenance"
+        not_sender = "Expert"
+        title = "Machine no #" + machine_id
+        notification = Notification.objects.create(
+            machine_id=Machine.objects.get(id=int(machine_id)), request=request_type, title=title, description=description,
+            not_status=not_status, not_id=Requests.objects.get(id=int(post.id)), not_sender=not_sender)
+        notification.save()
+
+        messages.info(
+            request, 'Request successfully Submited')
+        return redirect('maintenance', machine_id=machine_id)
+    else:
+        return render(request, 'frontend/expert/request-maintenance.html', context)
 
 
 def start_monitoring(request, id):
@@ -254,6 +300,43 @@ def chat(request, machine_id, req_id):
         return render(request, 'frontend/serviceman/chat.html', context)
 
 
+def chat_worker(request, machine_id, req_id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    machine = Machine.objects.get(id=machine_id)
+    worker_id = machine.machine_worker_id
+    expert_id = machine.machine_expert_id
+    
+
+    userchat = User.objects.get(id=worker_id)
+    req = Requests.objects.get(req_id=req_id)
+    chat = Serviceman_chat.objects.filter(req_id=req_id)
+    image = RequestImage.objects.filter(req_id=req_id)
+    req_id = req_id
+    machine_id = machine_id
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['userchat'] = userchat
+    context['req'] = req
+    context['chat'] = chat
+    context['machine_id'] = machine_id
+    context['image'] = image
+    context['title'] = "Chat"
+    if request.method == "POST":
+        req_id = request.POST['req_id']
+        message = request.POST['message']
+        post = Serviceman_chat.objects.create(
+            user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
+        post.save()
+        
+        return redirect('chat_worker', machine_id=machine_id, req_id=req_id)
+    else:
+        return render(request, 'frontend/serviceman/chat-worker.html', context)
+
+
 def chat_expert(request, expert_id, machine_id):
     context = {}
     user_id = request.session.get('user_id')
@@ -294,6 +377,20 @@ def video_call(request, id):
     context['caller'] = caller
     context['title'] = "Video Call"
     return render(request, 'frontend/serviceman/video-call.html', context)
+
+
+def video_call_2(request, id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    caller = User.objects.get(id=id)
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['caller'] = caller
+    context['title'] = "Video Call"
+    return render(request, 'frontend/serviceman/video-call-2.html', context)
 
 
 PER_PAGE = 8

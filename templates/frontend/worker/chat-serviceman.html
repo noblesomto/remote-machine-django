@@ -17,7 +17,10 @@
          
           <div class="machine-bg">
 
-            {% include "templates/frontend/includes/user-nav.html" %}
+          
+              {% include "templates/frontend/includes/user-nav.html" %}
+              
+
 
             <div class="row page-header">
                 <div class="col-12 ">
@@ -28,12 +31,12 @@
                         <div class="col-11 text-left page-name"> 
                           <div class="row">
                             <div class="col-md-9 col-8 pl-5">
-                              Expert - <span class="text-orange text-capitalize font-weight-bold">{{userchat.first_name}} {{userchat.last_name}}</span><br> <small class="text-danger font-weight-bold">Offline</small>
+                              Serviceman - <span class="text-orange text-capitalize font-weight-bold">{{userchat.first_name}} {{userchat.last_name}}</span><br> <small class="text-danger font-weight-bold">Offline</small>
                               
                             </div>
                             <div class="col-md-3 col-4 chat-header-icon text-left">
-                              <a class="text-orange" href="/serviceman/video-call/{{userchat.id }}"><i class="fa fa-phone"></i></a>
-                              <a class="text-orange" href="/serviceman/video-call/{{userchat.id }}"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
+                              <a class="text-orange" href="/worker/video-call-2/{{userchat.id }}"><i class="fa fa-phone"></i></a>
+                              <a class="text-orange" href="/worker/video-call-2/{{userchat.id }}"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
                             </div>
                           </div>
                         </div>
@@ -74,7 +77,7 @@
                   </div>
                 </div>
                 {% for row in chat %}
-              
+      
                 {% if request.session.user_id == row.user_id.id %}
 
                 <div class="col-12 ">
@@ -95,14 +98,26 @@
                 {% endfor %}
 
 
-                <div class="col-12 pt-50">
+               
                 <div class="row">
-                    
-                    <div class="col-12">
-                          <form class="request-form" method="POST" action="/serviceman/chat/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                    <div class="col-md-3 col-12">
+                      <div class="pt-40">
+                        <form class="form-horizontal" action="/worker/request-status/{{ req.req_id }}" method="post">
+                          {% csrf_token %}
+                          <div class="btn-group btn-toggle"> 
+                            <input type="hidden" name="worker_status" value="Resolved">
+                          <span class="btn btn-xs btn-danger"  active>Pending</span>
+                          <button class="btn btn-xs btn-success" name="Resolved" value="resolved">Resolved</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="col-md-9 col-12">
+                          <form class="request-form" method="POST" action="/worker/chat-serviceman/{{ expert_id }}/{{ req.req_id }}" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-group">
                           <div class="row">
+     
                             <div class="col-md-10 col-12">
                               <span class="error" style="color: #a80000;font-weight: bold;"></span>
                               <div style="border: 1px solid #ccc; border-radius: 5px; padding: 1px; margin: 20px;">
@@ -112,9 +127,9 @@
                               <input type="hidden" name="req_id" class="form-control" value="{{ req.req_id }}" required>
                             </div>
                             <div class="col-md-2 col-12">
-
                               <input class="btn btn-orange chat-btn font-weight-bold" type="submit" name="submit" value="Send" id="submit" />
                             </div>
+                           
                           </div>
                           
                         </div>
@@ -124,13 +139,6 @@
               </div>
             </div>
           
-
-            <div class="row ">
-              
-            </div>
-
-            
-            
 
 
           </div>
@@ -144,5 +152,5 @@
 
 
 
-{% include "templates/frontend/serviceman/includes/nav.html" %}
+{% include "templates/frontend/worker/includes/nav.html" %}
 {% include "templates/frontend/includes/footer-dashboard.html" %}
