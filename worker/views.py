@@ -6,6 +6,7 @@ from django.http import HttpResponse
 import random
 from user.models import Notification, User, Machine, Requests, RequestImage
 from .models import Chat
+from .models import Serviceman_chat
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import make_password, check_password
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
@@ -371,6 +372,39 @@ def chat(request, expert_id, req_id):
         return render(request, 'frontend/worker/chat.html', context)
 
 
+def chat_serviceman(request, expert_id, req_id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+
+    userchat = User.objects.get(id=expert_id)
+    req = Requests.objects.get(req_id=req_id)
+    chat = Serviceman_chat.objects.filter(req_id=req_id)
+    image = RequestImage.objects.filter(req_id=req_id)
+    req_id = req_id
+    expert_id = expert_id
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['userchat'] = userchat
+    context['req'] = req
+    context['chat'] = chat
+    context['expert_id'] = expert_id
+    context['image'] = image
+    context['title'] = "Chat"
+    if request.method == "POST":
+        req_id = request.POST['req_id']
+        message = request.POST['message']
+        post = Serviceman_chat.objects.create(
+            user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
+        post.save()
+        
+        return redirect('chat_serviceman', expert_id=expert_id, req_id=req_id)
+    else:
+        return render(request, 'frontend/worker/chat-serviceman.html', context)
+
+
 def request_status(request,id):
     context = {}
     user_id = request.session.get('user_id')
@@ -398,6 +432,17 @@ def video_call(request, id):
     context['user'] = user
     context['title'] = "Video Call"
     return render(request, 'frontend/worker/video-call.html', context)
+
+def video_call_2(request, id):
+    context = {}
+    user_id = request.session.get('user_id')
+    user = User.objects.get(id=user_id)
+    notification = get_notification(request)
+    
+    context['notification'] = notification
+    context['user'] = user
+    context['title'] = "Video Call"
+    return render(request, 'frontend/worker/video-call-2.html', context)
 
 
 def service_reminder(request, id): 

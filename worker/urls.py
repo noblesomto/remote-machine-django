@@ -21,8 +21,10 @@ urlpatterns = [
     path('worker/connecting-smartglass', views.connecting_smartglass, name='connecting_smartglass'),
     path('worker/serviceman/<str:id>', views.serviceman, name='serviceman'),
     path('worker/chat/<str:expert_id>/<str:req_id>', views.chat, name='chat'),
+    path('worker/chat-serviceman/<str:expert_id>/<str:req_id>', views.chat_serviceman, name='chat_serviceman'),
     path('worker/request-status/<str:id>', views.request_status, name='request_status'),
     path('worker/video-call/<str:id>', views.video_call, name='video_call'),
+    path('worker/video-call-2/<str:id>', views.video_call_2, name='video_call_2'),
     path('worker/service-reminder/<str:id>', views.service_reminder, name='service_reminder'),
     path('worker/machine-alarm/<str:id>', views.machine_alarm, name='machine_alarm'),
 ]
