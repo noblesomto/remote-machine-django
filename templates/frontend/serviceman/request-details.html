@@ -72,7 +72,11 @@
                       {% endif %}
                   </div>
                   <div class="col-6 text-right font-weight-bold ">
-                    <a href="/serviceman/chat/{{ request.machine_id.id }}/{{ request.req_id }}" class="btn btn-orange">Chat with Expert</a>
+                    {% if request.request_sender == "Serviceman" %}
+                      <a href="/serviceman/chat-worker/{{ request.machine_id.id }}/{{ request.req_id }}" class="btn btn-orange">Chat with Worker</a>
+                    {% else %}
+                      <a href="/serviceman/chat/{{ request.machine_id.id }}/{{ request.req_id }}" class="btn btn-orange">Chat with Expert</a>
+                    {% endif %}
                   </div>
                 </div>
               </div>

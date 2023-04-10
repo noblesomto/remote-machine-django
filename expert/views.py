@@ -203,7 +203,7 @@ def failure(request, machine_id):
         description = request.POST['description']
         req_id = random.randint(00000, 99999)
         machine_id = machine_id
-        request_type = "Failure"
+        request_type = "Assistance"
         request_status = "Pending"
         request_sender = "Expert"
         post = Requests.objects.create(
@@ -219,7 +219,7 @@ def failure(request, machine_id):
             )
 
         not_status = "Active"
-        request_type = "failure"
+        request_type = "assistance"
         not_sender = "Expert"
         title = "Machine no #" + machine_id
         notification = Notification.objects.create(

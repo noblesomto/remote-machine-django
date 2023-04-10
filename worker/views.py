@@ -49,7 +49,7 @@ def logout(request):
     return redirect('/worker/login')
 
 def get_notification(request):
-    notification = Requests.objects.filter(worker_view="0").exclude(Q(request_sender="Worker") | Q(request_type="Reminder")).count()
+    notification = Requests.objects.filter(worker_view="0").exclude(Q(request_sender="Worker") | Q(request_type="Reminder") | Q(request_type="Assistance")).count()
     return notification
 
 
@@ -184,7 +184,7 @@ def requests(request):
     context['user'] = user
     context['title'] = "Requests"
 
-    unsolved_request = Requests.objects.filter(request_status="Pending").exclude(request_type="Reminder").order_by('-id')
+    unsolved_request = Requests.objects.filter(request_status="Pending").exclude(Q(request_type="Reminder") | Q(request_type="Assistance") ).order_by('-id')
     unsolved_paginator = Paginator(unsolved_request, 20)
     unsolved_page_number = request.GET.get('page')
     unsolved_page = unsolved_paginator.get_page(unsolved_page_number)
@@ -203,7 +203,7 @@ def solved_requests(request):
     context['user'] = user
     context['title'] = "Solved Requests"
 
-    solved_request = Requests.objects.filter(request_status="Solved").order_by('-id').exclude(request_type="Reminder")
+    solved_request = Requests.objects.filter(request_status="Solved").order_by('-id').exclude(Q(request_type="Reminder") | Q(request_type="Assistance"))
     solved_paginator = Paginator(solved_request, 20)
     solved_page_number = request.GET.get('page')
     solved_page = solved_paginator.get_page(solved_page_number)
@@ -240,7 +240,7 @@ def contact(request):
     notification = get_notification(request)
     
     context['notification'] = notification
-    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending")).exclude(request_type="Reminder").order_by('-id')
+    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending")).exclude(Q(request_type="Reminder") | Q(request_type="Assistance")).order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -256,7 +256,7 @@ def notification(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    posts = Notification.objects.exclude(Q(not_sender="Worker") | Q(request="reminder")).order_by('-id')
+    posts = Notification.objects.exclude(Q(not_sender="Worker") | Q(request="reminder") | Q(request="assistance")).order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

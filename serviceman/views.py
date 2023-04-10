@@ -50,7 +50,7 @@ def logout(request):
     return redirect('/serviceman/login')
 
 def get_notification(request):
-    notification = Requests.objects.filter((Q(request_sender="Expert") | Q(request_type="Reminder")) & Q(serviceman_view="0")).count()
+    notification = Requests.objects.filter((Q(request_sender="Expert") | Q(request_type="Reminder")) & Q(serviceman_view="0")).exclude(Q(request_type="Maintanace") & Q(request_type="Failure")).count()
     return notification
 
 def dashboard(request):
@@ -88,12 +88,12 @@ def request_assistance(request, machine_id):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    notification = Requests.objects.filter(expert_view="0").exclude(Q(request_sender="Expert") | Q(request_type="Reminder")).count()
+    notification = get_notification(request)
     
     context['notification'] = notification
     context['user'] = user
     context['machine_id'] = machine_id
-    context['title'] = "Request Maintanace"
+    context['title'] = "Request Assistance"
     if request.method == "POST":
         subject = request.POST['subject']
         description = request.POST['description']
@@ -101,7 +101,7 @@ def request_assistance(request, machine_id):
         machine_id = machine_id
         request_type = "Maintanace"
         request_status = "Pending"
-        request_sender = "Expert"
+        request_sender = "Serviceman"
         post = Requests.objects.create(
             req_id=req_id, machine_id=Machine.objects.get(id=int(machine_id)), subject=subject, request_type=request_type,
             description=description,request_sender=request_sender, request_status=request_status)
@@ -116,7 +116,7 @@ def request_assistance(request, machine_id):
 
         not_status = "Active"
         request_type = "maintenance"
-        not_sender = "Expert"
+        not_sender = "Serviceman"
         title = "Machine no #" + machine_id
         notification = Notification.objects.create(
             machine_id=Machine.objects.get(id=int(machine_id)), request=request_type, title=title, description=description,
@@ -125,9 +125,9 @@ def request_assistance(request, machine_id):
 
         messages.info(
             request, 'Request successfully Submited')
-        return redirect('maintenance', machine_id=machine_id)
+        return redirect('request_assistance', machine_id=machine_id)
     else:
-        return render(request, 'frontend/expert/request-maintenance.html', context)
+        return render(request, 'frontend/serviceman/request-assistance.html', context)
 
 
 def start_monitoring(request, id):
@@ -175,7 +175,7 @@ def requests(request):
     notification = get_notification(request)
     
     context['notification'] = notification
-    unsolved_request = Requests.objects.filter(request_status="Pending").exclude(request_sender="Worker").order_by('-id')
+    unsolved_request = Requests.objects.filter(request_status="Pending").exclude(Q(request_type="Maintanace") | Q(request_type="Failure")).order_by('-id')
     unsolved_paginator = Paginator(unsolved_request, 20)
     unsolved_page_number = request.GET.get('page')
     unsolved_page = unsolved_paginator.get_page(unsolved_page_number)
@@ -192,7 +192,7 @@ def solved_requests(request):
     context['notification'] = notification
     context['user'] = user
     context['title'] = "Requests"
-    solved_request = Requests.objects.filter(request_status="Solved").exclude(request_sender="Worker").order_by('-id')
+    solved_request = Requests.objects.filter(request_status="Solved").exclude(Q(request_type="Maintanace") | Q(request_type="Failure")).order_by('-id')
     solved_paginator = Paginator(solved_request, 20)
     solved_page_number = request.GET.get('page')
     solved_page = solved_paginator.get_page(solved_page_number)
@@ -234,7 +234,7 @@ def contact(request):
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
 
-    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending")).order_by('-id')
+    posts = Requests.objects.filter((Q(expert_status="Resolved") | Q(expert_status="Pending")) & Q(worker_status="Pending")).exclude(Q(request_type="Maintanace") | Q(request_type="Failure")).order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -251,7 +251,7 @@ def notification(request):
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    posts = Notification.objects.filter(Q(not_sender="Expert") | Q(request="reminder")).order_by('-id')
+    posts = Notification.objects.filter(Q(not_sender="Expert") | Q(request="reminder")).exclude(Q(request="maintenance") | Q(request="failure")).order_by('-id')
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

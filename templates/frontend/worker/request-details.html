@@ -84,7 +84,11 @@
                       
                   </div>
                   <div class="col-6 text-right font-weight-bold ">
-                    <a href="/worker/chat/{{ request.machine_id.machine_expert.id }}/{{ request.req_id }}" class="btn btn-orange">Chat with Expert</a>
+                    {% if request.request_sender == "Serviceman" %}
+                      <a href="/worker/chat-serviceman/{{ request.machine_id.machine_expert.id }}/{{ request.req_id }}" class="btn btn-orange">Chat with Serviceman</a>
+                    {% else %}
+                      <a href="/worker/chat/{{ request.machine_id.machine_expert.id }}/{{ request.req_id }}" class="btn btn-orange">Chat with Expert</a>
+                    {% endif %}
                   </div>
                 </div>
               </div>

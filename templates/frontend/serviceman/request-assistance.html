@@ -1,0 +1,126 @@
+{% include "templates/frontend/includes/header.html" %}
+
+{% load static %}
+
+
+
+<main id="main" class="main-box">
+
+    
+
+    <!-- ======= Contact Section ======= -->
+    <section class="page-content">
+      <div class="container-fluid">
+
+        <div class="row d-flex justify-content-center">
+
+         
+          <div class="machine-bg2">
+
+            {% include "templates/frontend/includes/user-nav.html" %}
+
+            
+
+            <div class="row mt-10 mb-3 pt-40 page-white">
+              <div class="col-12 pb-20">
+                <div class="font-weight-bold text-center">Request Assistance</div>
+              </div>
+              <div class="col-12 text-center">
+                {% for message in messages %}
+                  <div class="alert alert-success"> {{ message }} </div> 
+                  {% endfor  %}
+              </div>
+              <div class="col-12">
+                <form class="request-form" method="POST" action="/serviceman/request-assistance/{{ machine_id}}" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="row">
+                    <div class="col-md-10 col-8"><div id="dvPreview"></div></div>
+                    <div class="col-md-2 col-4">
+                      <div class="form-group">
+                        <label for="files" class="filebutton">+ Add Images</label>
+                         <input style="opacity:0" id="files" name="machine-image" type="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg" class="form-control" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <input type="text" name="subject" class="form-control" placeholder="Service Request" required>
+                    <div class="text-right"><small>20 words max</small></div>
+                  </div>
+
+                  <div class="form-group">
+                    <textarea name="description" class="form-control" placeholder="Explain machine service needed" required></textarea>
+                    <div class="text-right"><small>500 words max</small></div>
+                  </div>
+
+                  <div class="form-group text-center">
+                    <input type="submit" name="submit" value="Submit Request" class="btn btn-orange">
+                    
+                  </div>
+                  
+                </form>
+              </div>
+            </div>
+
+    
+
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Contact Section -->
+
+  </main><!-- End #main -->
+
+<script type="text/javascript">
+    $(function () {
+        $('[id*=files]').change(function () {
+            if (typeof (FileReader) != "undefined") {
+                var dvPreview = $("[id*=dvPreview]");
+                var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.jpg|.jpeg|.gif|.png|.bmp)$/;
+                $($(this)[0].files).each(function () {
+                    var file = $(this);
+                    if (regex.test(file[0].name.toLowerCase())) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            var img = $("<img />");
+                            img.attr("style", "max-height:250px;width: 150px;border-radius:20px");
+                            img.attr("src", e.target.result);
+                            var div = $("<div style='float:left;' />");
+                            $(div).html("<span style='float:right;' class='closeDiv' title='Remove Image'>X<span>");
+                            div.append(img);
+ 
+                            dvPreview.append(div);
+                        }
+                        reader.readAsDataURL(file[0]);
+                    } else {
+                        alert(file[0].name + " is not a valid image file.");
+                        dvPreview.html("");
+                        return false;
+                    }
+                });
+            } else {
+                alert("This browser does not support HTML5 FileReader.");
+            }
+        });
+ 
+        $('body').on('click', '.closeDiv', function () {
+            $(this).closest('div').remove();
+        });
+    });
+</script>
+
+ <script>
+         $(function(){
+            $("input[type = 'submit']").click(function(){
+               var $fileUpload = $("input[type='file']");
+               if (parseInt($fileUpload.get(0).files.length) > 3){
+                  alert("You are only allowed to upload a maximum of 3 files");
+               }
+            });
+         });
+    </script>
+
+{% include "templates/frontend/serviceman/includes/nav.html" %}
+{% include "templates/frontend/includes/footer-dashboard.html" %}
