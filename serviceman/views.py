@@ -99,7 +99,7 @@ def request_assistance(request, machine_id):
         description = request.POST['description']
         req_id = random.randint(00000, 99999)
         machine_id = machine_id
-        request_type = "Maintanace"
+        request_type = "Request"
         request_status = "Pending"
         request_sender = "Serviceman"
         post = Requests.objects.create(
