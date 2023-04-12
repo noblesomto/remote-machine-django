@@ -25,7 +25,7 @@
                     <tr>
                       <th>Name</th>
                       <th>Email</th>
-                      <th>Phone</th>
+                      <th>Password</th>
                       <th>User Category</th>
                       <th>Edit</th>
                       <th>Action</th>
@@ -40,16 +40,16 @@
                       <td>{{ row.phone }}</td>
                       <td>{{ row.user_category }}</td>
 
-                      <td><a class="btn btn-primary" href="/users/edit-user/{{ row.user_id }}">Edit</a></td>
-                      <td><a class="btn btn-danger" href="/users/delete-user/{{ row.user_id }}">Delete</a> </td>
+                      <td><a class="btn btn-primary" href="/users/edit-user/{{ row.id }}">Edit</a></td>
+                      <td><a class="btn btn-danger" href="/users/delete-user/{{ row.id }}">Delete</a> </td>
                       <td>
                         
                         {% if row.user_status == "Dormant" %}
 
-                        <a class="btn btn-primary" href="/users/user-status/{{ row.user_id }}/Active">Unsuspend</a>
+                        <a class="btn btn-primary" href="/users/user-status/{{ row.id }}/Active">Unsuspend</a>
                         
                         {% else %}
-                        <a class="btn btn-warning" href="/users/user-status/{{ row.user_id }}/Dormant">Suspend</a>
+                        <a class="btn btn-warning" href="/users/user-status/{{ row.id }}/Dormant">Suspend</a>
                         {% endif %}
                       </td>
                     </tr>

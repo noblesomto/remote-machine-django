@@ -65,20 +65,20 @@ def all_users(request):
 
 @login_required(login_url='/page/admin')
 def edit_user(request, id):
-    user_id = id
-    users = User.objects.get(user_id=id)
+    users = User.objects.get(id=id)
     if request.method == "POST" and request.FILES['user_picture']:
+        phone = request.POST['phone']
         users.first_name = request.POST['first_name']
         users.last_name = request.POST['last_name']
         users.user_picture = request.FILES['user_picture']
         users.email = request.POST['email']
-        users.phone = request.POST['phone']
+        users.password = make_password(phone, None, 'md5')
         users.user_category = request.POST['user_category']
         users.save()
 
         messages.info(
             request, 'User was Edited successful')
-        return redirect('edit_user', id=users.user_id)
+        return redirect('edit_user', id=users.id)
 
     else:
         title = "Edit User"
@@ -88,7 +88,7 @@ def edit_user(request, id):
 @login_required(login_url='/page/admin')
 def user_status(request, id, status):
     user_id = id
-    users = User.objects.get(user_id=id)
+    users = User.objects.get(id=id)
     users.user_status = status
     users.save()
 
