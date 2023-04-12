@@ -45,6 +45,11 @@ body{
 	height: 85vh;
 }
 
+.call-button{
+	margin-top: 10px;
+	padding-bottom: 20px;
+}
+
 .home{
 	background-image: url("/static/frontend/images/bg.jpg");
 	background-position: center;
