@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import os
+import machine
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,13 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DEVSECRET')
+SECRET_KEY = machine.SECRET
 #'django-insecure-1&!#_^w6xjxn5d=$#o^zqtk9w-n&zo!(_p-m%$j*ltj+yqph1c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True if os.getenv('DEVDEBUG') == "True" else False
+DEBUG = machine.DEBUG 
 
-ALLOWED_HOSTS = [os.getenv('DEVHOST')]
+ALLOWED_HOSTS = [machine.HOSTNAME]
 
 
 # Application definition
@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'cobot.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DEVENGINE'),
+        'ENGINE': machine.DBENGINE,
         'NAME': 'cobot',
-        'USER': os.getenv('DEVUSER'),
-        'PASSWORD': os.getenv('DEVPASS'),
+        'USER': machine.DBUSER,
+        'PASSWORD': machine.DBUSERPASS,
         'HOST': 'localhost',
         'OPTIONS': {
             'charset': 'utf8mb4',
