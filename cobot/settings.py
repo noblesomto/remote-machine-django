@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+import machine
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1&!#_^w6xjxn5d=$#o^zqtk9w-n&zo!(_p-m%$j*ltj+yqph1c'
+SECRET_KEY = machine.SECRET
+#'django-insecure-1&!#_^w6xjxn5d=$#o^zqtk9w-n&zo!(_p-m%$j*ltj+yqph1c'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = machine.DEBUG 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = machine.HOSTNAME
 
 
 # Application definition
@@ -81,10 +83,10 @@ WSGI_APPLICATION = 'cobot.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DEVENGINE'),
+        'ENGINE': machine.DBENGINE,
         'NAME': 'cobot',
-        'USER': os.getenv('DEVUSER'),
-        'PASSWORD': os.getenv('DEVPASS'),
+        'USER': machine.DBUSER,
+        'PASSWORD': machine.DBUSERPASS,
         'HOST': 'localhost',
         'OPTIONS': {
             'charset': 'utf8mb4',
@@ -127,17 +129,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATIC_URL = 'static/'
+MEDIA_URL = 'media/'
+
+# Where 'collectstatic' will put media/static files
+# This is for deployment
+
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'html', 'static')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'html', 'media')
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+    'static/',
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
-
 
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.PBKDF2PasswordHasher',

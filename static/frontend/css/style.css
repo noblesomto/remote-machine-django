@@ -587,4 +587,9 @@ form label{
 	width: 100%;
 }
 
+.chat-button{
+	font-weight: bold;
+	text-align: right;
+}
+
 .mce-notification {display: none !important;}
