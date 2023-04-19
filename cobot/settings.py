@@ -28,7 +28,7 @@ SECRET_KEY = machine.SECRET
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = machine.DEBUG 
 
-ALLOWED_HOSTS = machine.ALLOWED_HOSTS
+ALLOWED_HOSTS = machine.HOSTNAME
 
 
 # Application definition
