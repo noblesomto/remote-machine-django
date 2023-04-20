@@ -186,9 +186,9 @@ def maintenance(request, machine_id):
             request, 'Request successfully Submited')
         return redirect('maintenance', machine_id=machine_id)
     else:
-        return render(request, 'frontend/expert/request-maintenance.html', context)
+        return render(request, 'frontend/expert/provide-assistance.html', context)
 
-def failure(request, machine_id): 
+def request_maintenance(request, machine_id): 
     context = {}
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
@@ -197,7 +197,7 @@ def failure(request, machine_id):
     context['notification'] = notification
     context['user'] = user
     context['machine_id'] = machine_id
-    context['title'] = "Report Machine Failure"
+    context['title'] = "Request Machine Maintanace"
     if request.method == "POST":
         subject = request.POST['subject']
         description = request.POST['description']
@@ -229,7 +229,7 @@ def failure(request, machine_id):
 
         messages.info(
             request, 'Request successfully Submited')
-        return redirect('failure', machine_id=machine_id)
+        return redirect('request_maintenance', machine_id=machine_id)
     else:
         return render(request, 'frontend/expert/report-failure.html', context)
 
