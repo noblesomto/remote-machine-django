@@ -231,7 +231,7 @@ def request_maintenance(request, machine_id):
             request, 'Request successfully Submited')
         return redirect('request_maintenance', machine_id=machine_id)
     else:
-        return render(request, 'frontend/expert/report-failure.html', context)
+        return render(request, 'frontend/expert/request-maintenance.html', context)
 
 
 def requests(request):
