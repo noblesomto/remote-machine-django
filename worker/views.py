@@ -354,7 +354,7 @@ def ajax_chat(request, expert_id, req_id):
                 <div class='{css_class}'>
                     {chat.message}
                     <div class='text-right'>
-                        <small>{chat.chat_date}</small>
+                        <small>{chat.chatday} <strong>at</strong> {chat.chatime}</small>
                     </div>
                 </div>
             </div>
