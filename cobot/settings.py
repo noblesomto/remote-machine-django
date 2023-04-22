@@ -88,9 +88,7 @@ DATABASES = {
         'USER': machine.DBUSER,
         'PASSWORD': machine.DBUSERPASS,
         'HOST': 'localhost',
-        'OPTIONS': {
-            'charset': 'utf8mb4',
-        }
+        'OPTIONS': machine.OPTIONS,
     }
 }
 

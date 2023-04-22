@@ -13,6 +13,16 @@ class Chat(models.Model):
     message = models.TextField(default='Description Message')
     chat_date = models.DateTimeField(default=datetime.now, blank=True)
 
+    def chatday(self):
+        """return the day of the chat"""
+
+        return self.chat_date
+
+    def chatime(self):
+        """return the time of the chat"""
+
+        return self.chat_date
+
     class Meta:
         db_table = 'chat'
 
