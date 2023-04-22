@@ -77,32 +77,12 @@
                   </div>
                 </div>
 
+
                 <div class="container">
                   <div class="row">
                     <div id="ajax-chat"></div>
                   </div>
                 </div>
-
-                {% for row in chat %}
-                {% if request.session.user_id == row.user_id.id %}
-
-                <div class="col-12 ">
-                  <div class="chatbox-2">
-                   {{ row.message|safe }}
-                   <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
-                  </div>
-
-                </div>
-                {% else %}
-                  <div class="col-12 ">
-                  <div class="chatbox-1">
-                    {{ row.message|safe }}
-                    <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
-                  </div>
-                </div>
-                {% endif %}
-                {% endfor %}
-
 
                
                 <div class="row">
@@ -119,7 +99,7 @@
                       </div>
                     </div>
                     <div class="col-md-9 col-12">
-                          <form class="request-form" method="POST" action="/worker/chat/{{ expert_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                          <form id="request-form" method="POST" action="/worker/chat/{{ expert_id }}/{{ req.req_id }}" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-group">
                           <div class="row">
@@ -175,7 +155,24 @@
     });
   };
 });
-</script>
+
+  $(document).ready(
+      $('#request-form').submit(function(e){
+        e.preventDefault();
+        var serializedData = $(this).serialize();
+
+        $.ajax({
+          type:"POST",
+          url: "/worker/ajax-post-chat/{{ expert_id }}/{{ req.req_id }}",
+          data:  serializedData,
+          success: function(data){
+            document.getElementById("request-form").reset();
+            sendRequest();
+          }
+        });
+      })
+    );
+    </script>
 
 {% include "templates/frontend/worker/includes/nav.html" %}
 {% include "templates/frontend/includes/footer-dashboard.html" %}

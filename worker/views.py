@@ -339,6 +339,16 @@ def connecting_smartglass(request):
     context['title'] = "Connect Smart Glass"
     return render(request, 'frontend/worker/connecting-smartglass.html', context)
 
+def ajax_post_chat(request, expert_id, req_id):
+    user_id = request.session.get('user_id')
+    req_id = request.POST['req_id']
+    message = request.POST['message']
+    post = Chat.objects.create(
+        user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
+    post.save()
+
+    return HttpResponse('Commented Successfully')
+
 
 def ajax_chat(request, expert_id, req_id):
     """Render the chat"""

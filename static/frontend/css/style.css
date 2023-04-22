@@ -445,24 +445,24 @@ form label{
 }
 
 .chatbox-1{
-	width: 80% !important;
+	width: 70vw !important;
 	padding: 10px;
 	background: #fdfcf9;
-	float: left;
+	float: left !important;
 	color: #999;
 	border-radius: 20px;
 	margin-bottom: 10px;
 }
 
 .chatbox-2{
-	width: 80% !important;
+	width: 70vw !important;
 	padding: 10px;
 	background: #e0fcd4;
-	float: right;
+	float: right !important;
 	color: #000;
 	border-radius: 20px;
 	margin-bottom: 10px;
-
+	justify-items: right;
 }
 
 .chat-header{
@@ -591,7 +591,6 @@ form label{
 	font-weight: bold;
 	text-align: right;
 }
-
 
 
 .mce-notification {display: none !important;}

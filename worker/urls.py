@@ -22,6 +22,7 @@ urlpatterns = [
     path('worker/serviceman/<str:id>', views.serviceman, name='serviceman'),
     path('worker/chat/<str:expert_id>/<str:req_id>', views.chat, name='chat'),
     path('worker/ajax-chat/<str:expert_id>/<str:req_id>', views.ajax_chat, name='ajax_chat'),
+    path('worker/ajax-post-chat/<str:expert_id>/<str:req_id>', views.ajax_post_chat, name='ajax_post_chat'),
     path('worker/chat-serviceman/<str:expert_id>/<str:req_id>', views.chat_serviceman, name='chat_serviceman'),
     path('worker/request-status/<str:id>', views.request_status, name='request_status'),
     path('worker/video-call/<str:id>', views.video_call, name='video_call'),
