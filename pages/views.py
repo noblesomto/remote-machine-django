@@ -13,7 +13,6 @@ import os
 
 def index(request):
     title = "Home"
-
     return render(request, 'frontend/index.html', {'title': title})
 
 
