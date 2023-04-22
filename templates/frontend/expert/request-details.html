@@ -71,7 +71,7 @@
 
               <div class="col-12 mt-20 mb-20 pl-20">
                 <div class="row">
-                  <div class="col-6">
+                  <div class="col-6 col-12">
                       <div class="pt-2">
                     <form class="form-horizontal" action="/expert/request-status/{{ request.req_id }}" method="post">
                       {% csrf_token %}
@@ -83,7 +83,7 @@
                     </form>
                   </div>
                   </div>
-                  <div class="col-6 text-right font-weight-bold ">
+                  <div class="col-6 col-12 chat-button">
                     {% if request.request_type == "Assistance" %}
                       <a href="/expert/serviceman-chat/{{ request.machine_id.id }}/{{ request.req_id }}" class="btn btn-orange">Chat with Serviceman</a>
                     {% else %}

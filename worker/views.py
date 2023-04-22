@@ -2,7 +2,7 @@ from django.core.checks import messages
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User, UserManager, auth
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import random
 from user.models import Notification, User, Machine, Requests, RequestImage
 from .models import Chat
@@ -338,6 +338,30 @@ def connecting_smartglass(request):
     context['serviceman'] = serviceman
     context['title'] = "Connect Smart Glass"
     return render(request, 'frontend/worker/connecting-smartglass.html', context)
+
+
+def ajax_chat(request, expert_id, req_id):
+    """Render the chat"""
+    
+    queryset = Chat.objects.filter(req_id=req_id)
+    html = ""
+    first_person = queryset[0].user_id if queryset.exists() else None
+    for chat in queryset:
+        css_class = "chatbox-1" if chat.user_id == first_person else "chatbox-2"
+        html += (
+            f"""
+            <div class='col-lg-12 col-12'>
+                <div class='{css_class}'>
+                    {chat.message}
+                    <div class='text-right'>
+                        <small>{chat.chat_date}</small>
+                    </div>
+                </div>
+            </div>
+            """
+        )
+    return HttpResponse(html)
+   
 
 def chat(request, expert_id, req_id):
     context = {}

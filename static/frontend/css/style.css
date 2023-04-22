@@ -445,7 +445,7 @@ form label{
 }
 
 .chatbox-1{
-	width: 80%;
+	width: 80% !important;
 	padding: 10px;
 	background: #fdfcf9;
 	float: left;
@@ -455,7 +455,7 @@ form label{
 }
 
 .chatbox-2{
-	width: 80%;
+	width: 80% !important;
 	padding: 10px;
 	background: #e0fcd4;
 	float: right;
@@ -591,6 +591,8 @@ form label{
 	font-weight: bold;
 	text-align: right;
 }
+
+
 
 .mce-notification {display: none !important;}
 
