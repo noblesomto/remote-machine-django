@@ -19,8 +19,8 @@ class Chat(models.Model):
 
         return self.chat_date.strftime('%a %-d %b %Y')
 
-   @property
-   def chatime(self):
+    @property
+    def chatime(self):
         """return the time of the chat"""
 
         return self.chat_date.strftime('%-I:%M%p')
