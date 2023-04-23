@@ -13,3 +13,7 @@ __pycache__/
 *.bak
 *.tmp
 
+# Ignore virtual environments
+env/
+virtualenv/
+venv/
