@@ -354,22 +354,26 @@ def ajax_chat(request, expert_id, req_id):
     """Render the chat"""
     
     queryset = Chat.objects.filter(req_id=req_id)
-    html = ""
+    # start the container chatbox div
+    html = "<div class='chatboxes'>\n"
     first_person = queryset[0].user_id if queryset.exists() else None
+    # fill the container div with live chatbox-n divs
     for chat in queryset:
         css_class = "chatbox-1" if chat.user_id == first_person else "chatbox-2"
         html += (
             f"""
-            <div class='col-lg-12 col-12'>
                 <div class='{css_class}'>
                     {chat.message}
                     <div class='text-right'>
-                        <small>{chat.chatday} <strong>at</strong> {chat.chatime}</small>
+                        <small>
+                            {chat.chatday} <strong>at</strong> {chat.chatime}
+                        </small>
                     </div>
                 </div>
-            </div>
             """
         )
+    # close the container chatbox div
+    html += "</div>\n"
     return HttpResponse(html)
    
 
