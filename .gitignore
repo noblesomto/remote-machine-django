@@ -1,3 +1,19 @@
 # Ignore machine-specific settings
 machine.py
 
+# Ignore cache folders
+__pycache__/
+
+# Ignore precompiled binaries
+*.pyc
+
+# Ignore temporary files
+*.swo
+*.swp
+*.bak
+*.tmp
+
+# Ignore virtual environments
+env/
+virtualenv/
+venv/

@@ -339,29 +339,49 @@ def connecting_smartglass(request):
     context['title'] = "Connect Smart Glass"
     return render(request, 'frontend/worker/connecting-smartglass.html', context)
 
+def ajax_post_chat(request, expert_id, req_id):
+    user_id = request.session.get('user_id')
+    req_id = request.POST['req_id']
+    message = request.POST['message']
+    post = Chat.objects.create(
+        user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
+    post.save()
+
+    return HttpResponse('Commented Successfully')
+
 
 def ajax_chat(request, expert_id, req_id):
     """Render the chat"""
     
     queryset = Chat.objects.filter(req_id=req_id)
-    html = ""
+    # start the container chatbox div
+    html = "<div class='chatboxes'>\n"
     first_person = queryset[0].user_id if queryset.exists() else None
+    # fill the container div with live chatbox-n divs
     for chat in queryset:
         css_class = "chatbox-1" if chat.user_id == first_person else "chatbox-2"
+        css_class_box = "chat-box-one-content" if chat.user_id == first_person else "chat-box-two-content"
         html += (
             f"""
-            <div class='col-lg-12 col-12'>
                 <div class='{css_class}'>
-                    {chat.message}
-                    <div class='text-right'>
-                        <small>{chat.chat_date}</small>
+                    <div class={css_class_box}>
+                        {chat.message}
+                        <div class='text-right'>
+                            <small>
+                                {chat.chatday} <strong>at</strong> {chat.chatime}
+                            </small>
+                        </div>
                     </div>
                 </div>
-            </div>
             """
         )
+    # close the container chatbox div
+    html += "</div>\n"
     return HttpResponse(html)
    
+def ajax_chat1(request, expert_id, req_id):    
+    queryset = Chat.objects.filter(req_id=req_id)
+    return JsonResponse({'chats': list(queryset.values())})
 
 def chat(request, expert_id, req_id):
     context = {}
@@ -428,6 +448,45 @@ def chat_serviceman(request, expert_id, req_id):
     else:
         return render(request, 'frontend/worker/chat-serviceman.html', context)
 
+def ajax_post_serviceman_chat(request, expert_id, req_id):
+    user_id = request.session.get('user_id')
+    req_id = request.POST['req_id']
+    message = request.POST['message']
+    post = Serviceman_chat.objects.create(
+        user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
+    post.save()
+
+    return HttpResponse('Commented Successfully')
+
+
+def ajax_serviceman_chat(request, expert_id, req_id):
+    """Render the chat"""
+    
+    queryset = Serviceman_chat.objects.filter(req_id=req_id)
+    # start the container chatbox div
+    html = "<div class='chatboxes'>\n"
+    first_person = queryset[0].user_id if queryset.exists() else None
+    # fill the container div with live chatbox-n divs
+    for chat in queryset:
+        css_class = "chatbox-2" if chat.user_id == first_person else "chatbox-1"
+        css_class_box = "chat-box-two-content" if chat.user_id == first_person else "chat-box-one-content"
+        html += (
+            f"""
+                <div class='{css_class}'>
+                    <div class={css_class_box}>
+                        {chat.message}
+                        <div class='text-right'>
+                            <small>
+                                {chat.chatday} <strong>at</strong> {chat.chatime}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            """
+        )
+    # close the container chatbox div
+    html += "</div>\n"
+    return HttpResponse(html)
 
 def request_status(request,id):
     context = {}
