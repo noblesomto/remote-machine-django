@@ -387,6 +387,45 @@ def serviceman(request, id):
     context['title'] = "dashboard"
     return render(request, 'frontend/worker/serviceman.html', context)
 
+def ajax_post_chat_2(request, machine_id, req_id):
+    user_id = request.session.get('user_id')
+    req_id = request.POST['req_id']
+    message = request.POST['message']
+    post = Chat.objects.create(
+        user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
+    post.save()
+
+    return HttpResponse('Commented Successfully')
+
+
+def ajax_chat_2(request, machine_id, req_id):
+    """Render the chat"""
+    
+    queryset = Chat.objects.filter(req_id=req_id)
+    # start the container chatbox div
+    html = "<div class='chatboxes'>\n"
+    first_person = queryset[0].user_id if queryset.exists() else None
+    # fill the container div with live chatbox-n divs
+    for chat in queryset:
+        css_class = "chatbox-2" if chat.user_id == first_person else "chatbox-1"
+        css_class_box = "chat-box-two-content" if chat.user_id == first_person else "chat-box-one-content"
+        html += (
+            f"""
+                <div class='{css_class}'>
+                    <div class={css_class_box}>
+                        {chat.message}
+                        <div class='text-right'>
+                            <small>
+                                {chat.chatday} <strong>at</strong> {chat.chatime}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            """
+        )
+    # close the container chatbox div
+    html += "</div>\n"
+    return HttpResponse(html)
 
 def chat_2(request, machine_id, req_id):
     context = {}
@@ -473,6 +512,47 @@ def chat_serviceman(request, machine_id, req_id):
         return redirect('chat_serviceman', machine_id=machine_id, req_id=req_id)
     else:
         return render(request, 'frontend/expert/chat-serviceman.html', context)
+
+
+def ajax_post_serviceman_chat_2(request, machine_id, req_id):
+    user_id = request.session.get('user_id')
+    req_id = request.POST['req_id']
+    message = request.POST['message']
+    post = Expert_chat.objects.create(
+        user_id=User.objects.get(id=int(user_id)), req_id=req_id, message=message)
+    post.save()
+
+    return HttpResponse('Commented Successfully')
+
+
+def ajax_serviceman_chat_2(request, machine_id, req_id):
+    """Render the chat"""
+    
+    queryset = Expert_chat.objects.filter(req_id=req_id)
+    # start the container chatbox div
+    html = "<div class='chatboxes'>\n"
+    first_person = queryset[0].user_id if queryset.exists() else None
+    # fill the container div with live chatbox-n divs
+    for chat in queryset:
+        css_class = "chatbox-1" if chat.user_id == first_person else "chatbox-2"
+        css_class_box = "chat-box-one-content" if chat.user_id == first_person else "chat-box-two-content"
+        html += (
+            f"""
+                <div class='{css_class}'>
+                    <div class={css_class_box}>
+                        {chat.message}
+                        <div class='text-right'>
+                            <small>
+                                {chat.chatday} <strong>at</strong> {chat.chatime}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            """
+        )
+    # close the container chatbox div
+    html += "</div>\n"
+    return HttpResponse(html)
 
 def define_program(request, id):
     machine_id = id

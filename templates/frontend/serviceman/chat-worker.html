@@ -73,33 +73,21 @@
                           </div>
                   </div>
                 </div>
-                {% for row in chat %}
-              
-                {% if request.session.user_id == row.user_id.id %}
+              </div>
+                
 
-                <div class="col-12 ">
-                  <div class="chatbox-2">
-                   {{ row.message|safe }}
-                   <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
-                  </div>
-
-                </div>
-                {% else %}
-                  <div class="col-12 ">
-                  <div class="chatbox-1">
-                    {{ row.message|safe }}
-                    <div class="text-right"><small>{{ row.chat_date|date:"D d M Y" }} <strong>at</strong> {{ row.chat_date|date:"H:i A" }}</small></div>
+                <div class="row">
+                  <div class="col-12">
+                      <div id="ajax-chat"></div>
                   </div>
                 </div>
-                {% endif %}
-                {% endfor %}
 
-
+                <div class="row">
                 <div class="col-12 pt-50">
                 <div class="row">
                     
                     <div class="col-12">
-                          <form class="request-form" method="POST" action="/serviceman/chat-worker/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                          <form id="request-form" method="POST" action="/serviceman/chat-worker/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-group">
                           <div class="row">
@@ -142,7 +130,43 @@
 
   </main><!-- End #main -->
 
+<script type="text/javascript">
+  $(document).ready(function(){
+  sendRequest();
 
+  function sendRequest(){
+      $.ajax({
+        type: "Get",
+        url: "/serviceman/ajax-chat-worker/{{ machine_id }}/{{ req.req_id }}",
+        success: 
+          function(data){
+             $('#ajax-chat').html(data);
+        },
+        complete: function() {
+       // Schedule the next request when the current one's complete
+       setInterval(sendRequest, 10000); // The interval set to 5 seconds
+     }
+    });
+  };
+});
+
+  $(document).ready(
+      $('#request-form').submit(function(e){
+        e.preventDefault();
+        var serializedData = $(this).serialize();
+
+        $.ajax({
+          type:"POST",
+          url: "/serviceman/ajax-post-chat-worker/{{ machine_id }}/{{ req.req_id }}",
+          data:  serializedData,
+          success: function(data){
+            document.getElementById("request-form").reset();
+            sendRequest();
+          }
+        });
+      })
+    );
+    </script>
 
 {% include "templates/frontend/serviceman/includes/nav.html" %}
 {% include "templates/frontend/includes/footer-dashboard.html" %}

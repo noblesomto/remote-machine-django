@@ -450,8 +450,13 @@ form label{
     width: 100%;
 }
 
-.chatbox-1{
-	align-self: flex-start;
+div.chatbox-1{
+	width: 100%;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.chatbox-1 .chat-box-one-content{
 	background: #fdfcf9;
 	border-radius: 20px;
 	color: #999;
@@ -460,15 +465,19 @@ form label{
 	width: 70vw;
 }
 
-.chatbox-2{
-	align-self: flex-end;
+div.chatbox-2{
+	width: 100%;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.chatbox-2 .chat-box-two-content{
+	margin-bottom: 10px;
+	padding: 10px;
 	background: #e0fcd4;
 	border-radius: 20px;
 	color: #000;
-	justify-items: right;
-	margin-bottom: 10px;
-	padding: 10px;
-	width: 70vw !important;
+	width: 70vw;
 }
 
 .chat-header{
