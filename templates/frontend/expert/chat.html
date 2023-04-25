@@ -33,7 +33,7 @@
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-12 chat-header-icon text-left">
                               <a class="text-orange" href="/expert/video-call/{{userchat.id }}"><i class="fa fa-phone"></i></a>
-                              <a class="text-orange" href="/expert/video-call/{{userchat.id }}"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
+                              <a class="text-orange" href="/expert/video-call/{{userchat.id }}?video=1"><i class="fa fa-video-camera" aria-hidden="true"></i></a>
                             </div>
                           </div>
                         </div>
@@ -96,7 +96,7 @@
                       </div>
                     </div>
                     <div class="col-md-9 col-12">
-                          <form class="request-form" method="POST" action="/expert/chat-2/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
+                          <form id="request-form" method="POST" action="/expert/chat-2/{{ machine_id }}/{{ req.req_id }}" enctype="multipart/form-data">
                         {% csrf_token %}
                           <div class="form-group">
                           <div class="row">
