@@ -13,6 +13,7 @@ urlpatterns = [
     path('worker/solved-requests', views.solved_requests, name='solved_requests'),
     path('worker/request-details/<str:id>', views.request_details, name='request_details'),
     path('worker/contact', views.contact, name='contact'),
+    path('worker/get-ajax-notification', views.get_ajax_notification, name='get_ajax_notification'),
     path('worker/notification', views.notification, name='notification'),
     path('worker/notification-details/<str:id>', views.notification_details, name='notification_details'),
     path('worker/experts/<str:id>', views.experts, name='experts'),

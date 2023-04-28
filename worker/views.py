@@ -52,6 +52,10 @@ def get_notification(request):
     notification = Requests.objects.filter(worker_view="0").exclude(Q(request_sender="Worker") | Q(request_type="Reminder") | Q(request_type="Assistance")).count()
     return notification
 
+def get_ajax_notification(request):
+    notification = Requests.objects.filter(worker_view="0").exclude(Q(request_sender="Worker") | Q(request_type="Reminder") | Q(request_type="Assistance")).count()
+    return HttpResponse(notification)
+
 
 def dashboard(request):
     context = {}

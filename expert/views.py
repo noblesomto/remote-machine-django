@@ -53,6 +53,10 @@ def get_notification(request):
     notification = Requests.objects.filter(expert_view="0").exclude(Q(request_sender="Expert") | Q(request_type="Reminder")).count()
     return notification
 
+def get_ajax_notification(request):
+    notification = Requests.objects.filter(expert_view="0").exclude(Q(request_sender="Expert") | Q(request_type="Reminder")).count()
+    return HttpResponse(notification)
+
 def dashboard(request):
     context = {}
     user_id = request.session.get('user_id')

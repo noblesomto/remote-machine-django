@@ -19,3 +19,25 @@
     </div>
   </div>
 </div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+  sendRequest();
+
+  function sendRequest(){
+      $.ajax({
+        type: "Get",
+        url: "/expert/get-ajax-notification",
+        success: 
+          function(data){
+             $('#get-notification').html(data);
+        },
+        complete: function() {
+       // Schedule the next request when the current one's complete
+       setInterval(sendRequest, 10000); // The interval set to 5 seconds
+     }
+    });
+  };
+});
+</script>

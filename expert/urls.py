@@ -18,6 +18,7 @@ urlpatterns = [
     path('expert/request-details/<str:id>', views.request_details, name='request_details'),
     path('expert/contact', views.contact, name='contact'),
     path('expert/notification', views.notification, name='notification'),
+    path('expert/get-ajax-notification', views.get_ajax_notification, name='get_ajax_notification'),
     path('expert/workers/<str:id>', views.workers, name='workers'),
     path('expert/serviceman/<str:id>', views.serviceman, name='serviceman'),
     path('expert/ajax-chat-2/<str:machine_id>/<str:req_id>', views.ajax_chat_2, name='ajax_chat_2'),

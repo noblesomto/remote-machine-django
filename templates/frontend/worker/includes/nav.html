@@ -11,10 +11,31 @@
           {% if notification == 0 %}
             
           {% else %}
-            <span class="badge badge-secondary">{{ notification }}</span>
+            <span class="badge badge-secondary" id="get-notification"></span>
           {% endif %}
         </a></div>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+  sendRequest();
+
+  function sendRequest(){
+      $.ajax({
+        type: "Get",
+        url: "/worker/get-ajax-notification",
+        success: 
+          function(data){
+             $('#get-notification').html(data);
+        },
+        complete: function() {
+       // Schedule the next request when the current one's complete
+       setInterval(sendRequest, 10000); // The interval set to 5 seconds
+     }
+    });
+  };
+});
+</script>
